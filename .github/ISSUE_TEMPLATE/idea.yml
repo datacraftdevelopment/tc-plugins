@@ -1,0 +1,19 @@
+name: Idea or request
+description: Something the workflow should do, or do differently.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repo is public. Leave out secrets, tokens, company or client names, private repo names and anyone's code.
+  - type: textarea
+    id: want
+    attributes:
+      label: What you want
+      description: What you were trying to get done, and what would have helped.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it matters

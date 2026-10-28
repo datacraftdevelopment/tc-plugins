@@ -1,8 +1,9 @@
 # tc-plugins
 
-The TC edition of Joe DaSilva's Claude Code workflow: one plugin,
-`tc-workflow`, in a marketplace called `tc-plugins`. **Private repo.** It
-replaces the older TC edition (the `pm` plugin in the local tc-plugins folder).
+Joe DaSilva's Claude Code workflow, packaged for the teams he trains: one
+plugin, `tc-workflow`, in a marketplace called `tc-plugins`. **Public repo.**
+It replaces the older edition (the `pm` plugin handed out as a local
+tc-plugins folder).
 
 What the plugin does, for the people using it:
 [`plugins/tc-workflow/README.md`](plugins/tc-workflow/README.md) and the
@@ -11,7 +12,7 @@ one-page [`WORKFLOW.md`](plugins/tc-workflow/WORKFLOW.md).
 ## Install (each trainee, once)
 
 ```
-/plugin marketplace add <this repo: owner/name on GitHub, or a local path>
+/plugin marketplace add datacraftdevelopment/tc-plugins
 /plugin install tc-workflow@tc-plugins
 ```
 
@@ -20,9 +21,9 @@ first: `/plugin uninstall pm@tc-plugins`, then remove the old marketplace if it
 had the same name (`/plugin marketplace remove tc-plugins`) before adding this
 one. Updates: `/plugin marketplace update tc-plugins`.
 
-A private GitHub repo as the marketplace means every trainee needs read access
-to it and a signed-in `gh` or git credential on their machine. The other way is
-the old one: hand out this folder and add it by local path.
+Problems or ideas: `/tc-workflow:feedback` in any session drafts an issue
+here, scrubbed of anything from your project, and files it on your go. Or open
+one at <https://github.com/datacraftdevelopment/tc-plugins/issues/new/choose>.
 
 ## How the plugin is made
 
@@ -58,9 +59,10 @@ committing.
 
 ## Rules
 
-- Nothing from this repo goes back into the public repos it is built from. A
-  generic improvement goes upstream as its own clean change, written there.
+- **This repo is public.** No company or client names, internal hosts,
+  credentials or anything under NDA, in the plugin, the build files or issues.
+  The plugin is a way of working, not project knowledge.
+- A generic improvement found here goes upstream as its own clean change,
+  written there; nothing is copied back wholesale.
 - The build only exports tracked files at pinned commits (`git archive`), never
   a working tree, and refuses links.
-- TC material (client names, internal hosts, anything under NDA) never goes in
-  `overlay/` either: the plugin is a way of working, not project knowledge.

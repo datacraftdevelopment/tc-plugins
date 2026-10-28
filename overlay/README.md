@@ -11,7 +11,7 @@ Claude Code only. Nothing here needs another AI tool or a separate app.
 ## Install
 
 ```
-/plugin marketplace add <where your team keeps this repo>
+/plugin marketplace add datacraftdevelopment/tc-plugins
 /plugin install tc-workflow@tc-plugins
 ```
 
@@ -51,6 +51,7 @@ repo's check command, and five short questions for `_pm/skeleton.md`. Then:
 | Ship | `ship-acceptance` |
 | Guards | `credential-guard` (always on), `gate-hooks`, `review-policy` (agent `policy-reviewer`) — see [`GATES.md`](./GATES.md) |
 | Reference | `domain-modeling`, `codebase-design`, `okf`, `research`, `pr` |
+| Problems with the plugin | `feedback`: drafts a scrubbed issue on this plugin's repo, files it on your go |
 
 Where each part comes from and its licence: [`VENDOR.md`](./VENDOR.md).
 

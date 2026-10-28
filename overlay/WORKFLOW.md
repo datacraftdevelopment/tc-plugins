@@ -97,3 +97,8 @@ and records the result in `docs/shipped/`. The plugin never deploys.
 
 Subagents always name their model: `sonnet` to build, `opus` for judgment and
 every review, whatever the main session runs on.
+
+## When the plugin itself gets in the way
+
+`feedback` drafts an issue for the plugin's maintainer, scrubbed of anything
+from your project, and files it on the public repo only after you say go.

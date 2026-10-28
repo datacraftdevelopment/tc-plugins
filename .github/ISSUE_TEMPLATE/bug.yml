@@ -1,0 +1,35 @@
+name: Bug
+description: A skill in tc-workflow didn't work the way it should.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repo is public. Leave out secrets, tokens, company or client names, private repo names and anyone's code.
+        In a Claude Code session with the plugin, `/tc-workflow:feedback` drafts this for you.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Which skill, what you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to see it again
+  - type: input
+    id: version
+    attributes:
+      label: Plugin version
+      description: "`/plugin` shows it, or `version` in the plugin's plugin.json."
+  - type: input
+    id: claude
+    attributes:
+      label: Claude Code version
+      description: "`claude --version`"
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else
+      description: Error text or a screenshot, scrubbed.

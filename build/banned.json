@@ -1,15 +1,59 @@
 {
   "_comment": "Clean check. A line matching a pattern fails the build unless the file is in allow_in (regexes on the path inside the plugin). Case-insensitive. Add a rule for anything that must never reach TC.",
   "rules": [
-    {"pattern": "ringer", "why": "Joe's private multi-model tool"},
-    {"pattern": "\\bcodex\\b|\\bastra\\b|\\bsol\\b|gpt-", "why": "second-vendor seats: TC runs Claude Code only"},
-    {"pattern": "\\bfable\\b|\\bhaiku\\b", "why": "model names outside the TC model rule"},
-    {"pattern": "granola", "why": "personal tool"},
-    {"pattern": "/Users/|Agentic-Mini|~/Agentic|Joe-M6|mini-m4", "why": "personal paths and machines"},
-    {"pattern": "runway", "why": "the Runway app is not part of the TC edition", "allow_in": ["VENDOR\\.md", "LICENSE.*"]},
-    {"pattern": "datacraft|dc-dev-plugins|pm-sp|agent-runway|dc-plugins|rcc-", "why": "source names belong only in the credits", "allow_in": ["VENDOR\\.md", "LICENSE.*"]},
-    {"pattern": "\\bjoe\\b", "why": "personal name outside the credits", "allow_in": ["VENDOR\\.md", "LICENSE.*", "README\\.md", "\\.claude-plugin/plugin\\.json"]},
-    {"pattern": "build-swarm|cross-review-gate|session-succession|second-opinion|ui-test|orchestrate\\b|fast-grill|\\bdesk\\b|marvin|yojo", "why": "private skills and tools that do not ship"},
-    {"pattern": "(api[_-]?key|token|secret|password)\\s*[:=]\\s*['\"]?[A-Za-z0-9_\\-]{16,}", "why": "looks like a credential"}
+    {
+      "pattern": "ringer",
+      "why": "a private multi-model tool"
+    },
+    {
+      "pattern": "\\bcodex\\b|\\bastra\\b|\\bsol\\b|gpt-",
+      "why": "second-vendor seats: TC runs Claude Code only"
+    },
+    {
+      "pattern": "\\bfable\\b|\\bhaiku\\b",
+      "why": "model names outside the TC model rule"
+    },
+    {
+      "pattern": "granola",
+      "why": "personal tool"
+    },
+    {
+      "pattern": "/Users/|/home/[a-z]+/",
+      "why": "personal paths"
+    },
+    {
+      "pattern": "runway",
+      "why": "the Runway app is not part of the TC edition",
+      "allow_in": [
+        "VENDOR\\.md",
+        "LICENSE.*"
+      ]
+    },
+    {
+      "pattern": "datacraft(?!development/tc-plugins)|dc-dev-plugins|pm-sp|agent-runway|dc-plugins|rcc-",
+      "why": "source names belong only in the credits (this repo's own name is fine)",
+      "allow_in": [
+        "VENDOR\\.md",
+        "LICENSE.*"
+      ]
+    },
+    {
+      "pattern": "\\bjoe\\b",
+      "why": "personal name outside the credits",
+      "allow_in": [
+        "VENDOR\\.md",
+        "LICENSE.*",
+        "README\\.md",
+        "\\.claude-plugin/plugin\\.json"
+      ]
+    },
+    {
+      "pattern": "build-swarm|cross-review-gate|session-succession|second-opinion|ui-test|orchestrate\\b|fast-grill",
+      "why": "private skills and tools that do not ship"
+    },
+    {
+      "pattern": "(api[_-]?key|token|secret|password)\\s*[:=]\\s*['\"]?[A-Za-z0-9_\\-]{16,}",
+      "why": "looks like a credential"
+    }
   ]
 }
