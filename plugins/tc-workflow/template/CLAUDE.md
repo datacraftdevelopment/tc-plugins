@@ -61,7 +61,7 @@ one-page version.
 - **Building:** `work-ticket` takes one ticket into its own worktree, plans it
   (`writing-plans`) when it is more than a step or two, and builds it with
   `subagent-driven-development` or `executing-plans`, test-first. A whole spec
-  in one go is `/tc-workflow:implement-spec`, only when the user types it.
+  in one go is `implement-spec`, only when the user says "implement spec".
   Nested sessions only when the user asks for them by name. Decisions the
   plan didn't settle are made and written in the ledger as rulings; only
   irreversible, security, outside-the-worktree or hopelessly broken steps stop

@@ -105,8 +105,8 @@ by its ordinal. On resume, reread that file's Intent and latest re-aim.
 Shaped work is done here, with the user in the loop. A ticket goes to
 `work-ticket`; a small spec with no tickets too (its "No tickets" section). A
 spec with several pieces goes to `file-tickets` on the user's go, then
-`work-ticket` one at a time, or `/tc-workflow:implement-spec` when the user
-types it, or nested sessions when the user asks for them by name. Every branch
+`work-ticket` one at a time, or `implement-spec` when the user
+says "implement spec", or nested sessions when the user asks for them by name. Every branch
 ends in `finish`: two fresh reviews, then the user's go to merge. A quick,
 fully specified task is just done, test-first.
 

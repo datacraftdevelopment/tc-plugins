@@ -71,7 +71,7 @@ want to sit on it. Then, by size:
 - **One piece:** no tickets. Build it with `work-ticket` (its "No tickets" section): a worktree, a plan if it needs
   one, test-first, then `finish`.
 - **Several independent pieces:** offer `file-tickets`. Once they're filed, the person picks how to build them:
-  `work-ticket` one at a time, `/tc-workflow:implement-spec` for the whole spec in one go, or nested sessions when
+  `work-ticket` one at a time, `implement-spec` for the whole spec in one go, or nested sessions when
   they ask for them.
 - **A project-sized spec:** before filing, offer a builder's read: dispatch a fresh `opus` subagent with only the
   spec and the repo, asking what a builder would get stuck on, guess at, or build differently from what's meant.

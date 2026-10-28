@@ -66,7 +66,7 @@ three status labels first if they're missing (the tracker file has the
 commands).
 
 Then tell the person the ids, which are ready now, and offer the ways to build
-them: `work-ticket` one at a time, `/tc-workflow:implement-spec` for the whole
+them: `work-ticket` one at a time, `implement-spec` for the whole
 spec in one go, or nested sessions if they ask for them.
 
 ## Never

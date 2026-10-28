@@ -50,7 +50,7 @@ Say **yes** only when all of these hold:
   another machine, so cloud sessions are §6, never managed nested sessions.
 
 Otherwise say **no** and name the alternative: do them one at a time with
-`work-ticket`, or a whole spec with `/tc-workflow:implement-spec`. A side task
+`work-ticket`, or a whole spec with `implement-spec`. A side task
 that needs no session of its own (a search, a read-only check) is a subagent,
 which reports back on its own.
 
@@ -190,7 +190,7 @@ print the briefs for the user to paste.
 ## Next to implement-spec
 
 A whole spec already cut into tickets, built hands-off with subagents, is
-`/tc-workflow:implement-spec`. This skill is for two or three tickets the user
+`implement-spec`. This skill is for two or three tickets the user
 wants moving at once, each needing a session of its own that the user can open
 and talk to.
 

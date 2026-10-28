@@ -270,10 +270,10 @@ Loose ideas never go in the tracker. They go in `docs/inbox.md`, one line each.
 
 ## 5. Three ways to build
 
-| | `work-ticket` | `/tc-workflow:implement-spec` | nested sessions |
+| | `work-ticket` | `implement-spec` | nested sessions |
 |---|---|---|---|
 | What | one ticket, with you | every ticket of a spec, hands-off | two or three tickets at once, each its own session |
-| Starts | when you or `whats-next` pick a ticket | **only when you type the command** | **only when you ask for it by name** |
+| Starts | when you or `whats-next` pick a ticket | **only when you say "implement spec"** | **only when you ask for it by name** |
 | Where it runs | this session, subagents for the tasks | background subagents, one worktree each | background Claude Code sessions on your computer |
 | You see | every step | the result, and anything that got stuck | one main session that relays questions |
 | Ends in | `finish` | `finish` on the integration branch | `finish` per branch |
@@ -294,10 +294,12 @@ The default. "Work the next ticket", "do T-4", "pick up #12".
    look for, and waits for your answer.
 6. Goes to `finish`.
 
-### A whole spec in one go: `/tc-workflow:implement-spec`
+### A whole spec in one go: implement spec
 
-Type `/tc-workflow:implement-spec docs/specs/<file>.md` after the tickets are
-filed. The session:
+After the tickets are filed, say **"implement spec"** (or "implement the spec
+for CSV export", or type `/tc-workflow:implement-spec docs/specs/<file>.md`).
+It starts only when you name it like that; it never starts on its own. The
+session:
 
 - reads the tickets as a graph (what waits on what) and finds the ones ready
   now;
@@ -455,7 +457,7 @@ kind that pick it up.
 | `spec` | Writes the spec with Acceptance lines | "write the spec", "spec this" |
 | `file-tickets` | Cuts a spec into tickets, files on your go | "file tickets", "break this up" |
 | `work-ticket` | Builds one ticket in its own worktree | "work the next ticket", "do T-4" |
-| `/tc-workflow:implement-spec` | Builds every ticket of a spec with background builders | type the command |
+| `implement-spec` | Builds every ticket of a spec with background builders | "implement spec" (only when you say it) |
 | `nested-sessions` | Two or three tickets in parallel sessions | "set up nested sessions" |
 | `writing-plans` | A task-by-task plan in `docs/plans/` | "write a plan" |
 | `subagent-driven-development` | Runs a plan, a fresh subagent per task, each reviewed | (used by work-ticket) |

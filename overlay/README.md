@@ -46,7 +46,7 @@ repo's check command, and five short questions for `_pm/skeleton.md`. Then:
 | Shape | `map`, `grill`, `prototype`, `design-handoff`, `spec` |
 | Tickets | `file-tickets` (into `docs/TASKS.md` or GitHub Issues) |
 | Build | `work-ticket`, `writing-plans`, `subagent-driven-development`, `executing-plans`, `test-driven-development`, `systematic-debugging`, `verification-before-completion` |
-| Build a whole spec | `/tc-workflow:implement-spec` (only when typed), `nested-sessions` (only when asked for) |
+| Build a whole spec | `implement-spec` (only when you say "implement spec"), `nested-sessions` (only when asked for) |
 | Review and merge | `review` (agents `code-reviewer`, `function-reviewer`), `finish` |
 | Ship | `ship-acceptance` |
 | Guards | `credential-guard` (always on), `gate-hooks`, `review-policy` (agent `policy-reviewer`) — see [`GATES.md`](./GATES.md) |

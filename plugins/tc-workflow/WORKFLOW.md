@@ -54,10 +54,10 @@ Three ways, from the most hands-on to the most hands-off:
   test-first (`test-driven-development`), bugs through
   `systematic-debugging`, and no "done" without output
   (`verification-before-completion`).
-- **A whole spec in one go:** `/tc-workflow:implement-spec`. Background
+- **A whole spec in one go:** say "implement spec". Background
   subagents take every ready ticket at once, each in its own worktree; a
   merger folds each into one integration branch; the next ready tickets
-  start. Only when you type it.
+  start. Only when you ask for it by name.
 - **Nested sessions:** say "set up nested sessions" and the main session
   starts two or three background Claude Code sessions, one per ticket,
   steers them and lands their work. Only when you ask for it by name, on

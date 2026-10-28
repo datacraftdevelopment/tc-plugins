@@ -1,7 +1,6 @@
 ---
 name: implement-spec
-description: "Build a whole spec's tickets in one go: background implementer subagents take every ready ticket at once, each in its own worktree, a merger folds each into one integration branch, newly ready tickets start, and the finished branch goes through finish (two fresh reviews, the person's go to merge). Run only when the person types it."
-disable-model-invocation: true
+description: "Build a whole spec's tickets in one go: background implementer subagents take every ready ticket at once, each in its own worktree, a merger folds each into one integration branch, newly ready tickets start, and the finished branch goes through finish (two fresh reviews, the person's go to merge). Use ONLY when the person explicitly says 'implement spec' or 'implement the spec' (or types /tc-workflow:implement-spec). Never start it on your own, and never because a spec is ready or tickets are filed; offer it instead."
 ---
 
 # Implement a spec
@@ -29,7 +28,7 @@ ticket, notes, earlier commits, instead of copying them.
 ## Before you start
 
 - Say how many tickets, how many are ready now, and which wait. The person
-  typed the command, so that is the go to build; it is not a go to merge.
+  asked for it by name, so that is the go to build; it is not a go to merge.
 - Check the machine has room: each implementer is a full build. Three at once
   is the ceiling unless the person says otherwise.
 - Any ticket with `You check` lines: those lines need the person at the end,
