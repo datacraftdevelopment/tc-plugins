@@ -476,6 +476,7 @@ kind that pick it up.
 | `okf` | Conventions for a `knowledge/` folder | "knowledge bundle" |
 | `research` | Background research into a Markdown file | "research this" |
 | `pr` | Writes a pull request body | "write the PR" |
+| `cross-review` | Optional, only if you have Ringer installed: another AI vendor reads a spec or branch, next to a fresh Claude. Does nothing without Ringer | "Ringer cross-review" |
 | `feedback` | Reports a problem with this plugin | "send feedback", "/tc-workflow:feedback" |
 
 Agents (started by the skills, not by you): `code-reviewer`,

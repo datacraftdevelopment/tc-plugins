@@ -3,11 +3,18 @@
   "rules": [
     {
       "pattern": "ringer",
-      "why": "a private multi-model tool"
+      "why": "a separate multi-model tool: only the optional cross-review skill and the README may name it",
+      "allow_in": [
+        "skills/cross-review/.*",
+        "README\\.md"
+      ]
     },
     {
-      "pattern": "\\bcodex\\b|\\bastra\\b|\\bsol\\b|gpt-",
-      "why": "second-vendor seats: TC runs Claude Code only"
+      "pattern": "\\bastra\\b|\\bsol\\b|gpt-|\\bcodex\\b",
+      "why": "second-vendor seats: TC runs Claude Code only",
+      "allow_in": [
+        "skills/cross-review/.*"
+      ]
     },
     {
       "pattern": "\\bfable\\b|\\bhaiku\\b",
@@ -34,7 +41,8 @@
       "why": "source names belong only in the credits (this repo's own name is fine)",
       "allow_in": [
         "VENDOR\\.md",
-        "LICENSE.*"
+        "LICENSE.*",
+        "skills/cross-review/.*"
       ]
     },
     {
