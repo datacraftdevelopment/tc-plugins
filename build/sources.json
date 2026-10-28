@@ -1,0 +1,15 @@
+{
+  "_comment": "Pinned inputs. The build exports only git-tracked files at these commits (git archive), never a working tree. Bump a commit on purpose, rebuild, read the diff of plugins/ before committing.",
+  "pm-sp": {
+    "url": "https://github.com/datacraftdevelopment/dc-dev-plugins",
+    "commit": "02e866cc5f10ba8e408026639af5e8aa21fa57e2",
+    "subdir": "pm-sp",
+    "default_checkout": "../dc-dev-plugins"
+  },
+  "agent-runway": {
+    "url": "https://github.com/datacraftdevelopment/agent-runway",
+    "commit": "ec0559885f460b5587b8dca7773f1893bb7a412b",
+    "subdir": "plugin/agent-runway",
+    "default_checkout": "../agent-runway"
+  }
+}

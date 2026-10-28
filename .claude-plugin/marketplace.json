@@ -1,0 +1,13 @@
+{
+  "name": "tc-plugins",
+  "owner": {
+    "name": "Joe DaSilva"
+  },
+  "plugins": [
+    {
+      "name": "tc-workflow",
+      "source": "./plugins/tc-workflow",
+      "description": "Shape work, cut it into tickets, build test-first with agents, two fresh reviews per branch, you merge, prove it against production."
+    }
+  ]
+}

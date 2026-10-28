@@ -1,0 +1,66 @@
+# tc-plugins
+
+The TC edition of Joe DaSilva's Claude Code workflow: one plugin,
+`tc-workflow`, in a marketplace called `tc-plugins`. **Private repo.** It
+replaces the older TC edition (the `pm` plugin in the local tc-plugins folder).
+
+What the plugin does, for the people using it:
+[`plugins/tc-workflow/README.md`](plugins/tc-workflow/README.md) and the
+one-page [`WORKFLOW.md`](plugins/tc-workflow/WORKFLOW.md).
+
+## Install (each trainee, once)
+
+```
+/plugin marketplace add <this repo: owner/name on GitHub, or a local path>
+/plugin install tc-workflow@tc-plugins
+```
+
+Then restart Claude Code. Anyone who has the old TC `pm` plugin removes it
+first: `/plugin uninstall pm@tc-plugins`, then remove the old marketplace if it
+had the same name (`/plugin marketplace remove tc-plugins`) before adding this
+one. Updates: `/plugin marketplace update tc-plugins`.
+
+A private GitHub repo as the marketplace means every trainee needs read access
+to it and a signed-in `gh` or git credential on their machine. The other way is
+the old one: hand out this folder and add it by local path.
+
+## How the plugin is made
+
+`plugins/tc-workflow/` is **generated**. Never edit it by hand.
+
+```
+build/sources.json   the two public upstreams and the exact commits used
+build/files.json     the allowlist: the only upstream files that ship
+build/phrases.json   word-for-word edits to upstream files, then token swaps
+build/banned.json    the clean check: words that must never ship
+overlay/             files this edition owns outright (laid on top)
+build/build.py       does all of the above, fails loudly on any miss
+tests/               build is reproducible, clean check works, guard suite passes
+```
+
+Rebuild after changing anything above, with public checkouts of
+`datacraftdevelopment/dc-dev-plugins` and `datacraftdevelopment/agent-runway`
+next to this repo (or pass `--pm-sp-src` / `--agent-runway-src`):
+
+```bash
+python3 build/build.py
+python3 -m unittest discover tests
+```
+
+Then bump `overlay/.claude-plugin/plugin.json`'s version, rebuild, read the
+diff of `plugins/`, and commit.
+
+**Taking a newer upstream:** set the new commit in `build/sources.json` and
+rebuild. A phrase that no longer matches, a file that moved, or a banned word
+that appeared stops the build with the file and line. Fix the map, or move the
+file into `overlay/` and own it. Read the diff of `plugins/` before
+committing.
+
+## Rules
+
+- Nothing from this repo goes back into the public repos it is built from. A
+  generic improvement goes upstream as its own clean change, written there.
+- The build only exports tracked files at pinned commits (`git archive`), never
+  a working tree, and refuses links.
+- TC material (client names, internal hosts, anything under NDA) never goes in
+  `overlay/` either: the plugin is a way of working, not project knowledge.

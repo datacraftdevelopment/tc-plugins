@@ -1,0 +1,9 @@
+{
+  "name": "tc-workflow",
+  "version": "0.1.0",
+  "description": "A Claude Code workflow for building software with agents: open and close each session, shape work (map, grill, prototype, spec), cut it into tickets kept in docs/TASKS.md or GitHub Issues, build test-first with subagents, nested sessions or implement-spec, check each branch with two fresh reviewers (code and function), merge on your own word, and prove the spec against production. Includes a credential guard, repo gates and a review policy.",
+  "author": {
+    "name": "Joe DaSilva"
+  },
+  "keywords": ["workflow", "spec", "tickets", "tdd", "review", "subagents", "nested sessions"]
+}

@@ -1,0 +1,136 @@
+{
+ "_comment": "Edits run first, per file, and each must match. Then tokens run over every file, in order, and each must match somewhere. A miss fails the build: upstream moved, so read it and fix this map or own the file in overlay/.",
+ "edits": [
+  {
+   "file": "GATES.md",
+   "old": "# Gates and review policy (formerly the sdlc plugin)\n\nRepo-level enforcement kits for the agentic SDLC. They were the `sdlc` plugin\nuntil pm 0.25.0, when they folded into pm: one install now gives the session\nworkflow and these kits. The rest of pm runs the session: intent,\ntickets, verification, delivery. This half holds what the session leaves to\ndeterministic tools: gates a session cannot talk its way past, and a written\nreview policy read by a reviewer that did not write the change.\n\nIt uses Claude Code features only. No `pm`, Ringer or Codex dependency, so the\nsame kit works in a repo that has none of them.\n\n",
+   "new": "# Gates and review policy\n\nRepo-level enforcement kits. The workflow skills run the session: shaping,\ntickets, verification, delivery. This half holds what the session leaves to\ndeterministic tools: gates a session cannot talk its way past, and a written\nreview policy read by a reviewer that did not write the change.\n\nIt uses Claude Code features only, so the same kit works in a repo that uses\nnone of the other skills.\n\n"
+  },
+  {
+   "file": "GATES.md",
+   "old": "In pm until 0.24.0, the sdlc plugin from 2026-10-07, and back in pm from 0.25.0. Tests: `bash pm-sp/hooks/test-credential-guard.sh` and `tests/test_sdlc_credential_guard.py`. pm's Codex edition carries this guard, ui-test and the rest of pm, and leaves out `gate-hooks` and `review-policy`.",
+   "new": "Test: `bash hooks/test-credential-guard.sh` from the plugin folder."
+  },
+  {
+   "file": "GATES.md",
+   "old": "## Where it came from\n\nAnthropic's *AI-native SDLC playbook* course (14 lessons,\n<https://academy.claude.com/courses/ai-native-sdlc-playbook/introduction>), read\nagainst `pm` on 2026-10-02. `pm` already covers most of it and goes past it on\ndelivery (`ship-acceptance`). What was missing was the enforcement side:\n\n| Course play | Where it lives |\n|---|---|\n| Intent, spec, plan, CLAUDE.md, skills, parallel sessions, self-checks, ship | `agent-runway` (shaping, tickets, hands-on skills) with `pm-sp` around it, the library |\n| Hooks that block during the build, and hooks that ask for approval (lessons 6, 8, 11) | `gate-hooks` |\n| AI in pull request review: the policy file and the reviewer (lesson 10) | `review-policy` |\n| Continuous evaluations in CI (lesson 9) | parked |\n| Metric monitoring that opens new work (lesson 13) | parked |\n\nThe library page is `_Core/library/wiki/craft/agents/ai-native-sdlc.md`.\n\n### Why these were a separate plugin, and why they are not now\n\n`docs/sdlc/RIFF.md` at the repo root (2026-09-03) concluded the SDLC gap belonged in `pm`, and for Ship it\ndid: that became `ship-acceptance`. These kits are different in kind. `pm` is a\nworkflow you run every session. A gate is installed once per repo and then runs\non its own. Keeping the kits out of `pm` keeps `pm` from growing a fifth job,\nand it leaves a half that can be taught or shared without Ringer.\nThat reasoning held until pm 0.25.0 (GitHub #5), when sdlc and ui-test were folded\ninto pm so that installing pm alone gives the whole set.\nThe kits still use Claude Code features only, and nothing in them needs Ringer.\n\n### Parked, and what would un-park it\n\n- **An evaluation suite on config change.** It re-runs recorded tasks whenever\n  CLAUDE.md, a skill or a hook changes. It needs a repo with CI, an API budget\n  and twenty or more recorded real tasks. Build it the second time a skill or\n  CLAUDE.md change breaks behavior that such a suite would have caught.\n- **Control-band monitoring.** A script watches one metric and wakes an agent when\n  it drifts. It needs a metric store with a stable baseline. Build it for the\n  first project that has production numbers worth watching.\n- **A mod for the lock.** Claude Code mods (2.1.287 and later) can draw and add\n  commands. One small mod would show the test lock under the prompt and give the\n  user `/gate` commands to set the lock, release it and read status without a\n  terminal.\n  Build it the first time a lock is left on by accident. Enforcement stays in\n  the settings hook either way: a hook is committed with the repo and a mod is\n  installed per machine.\n\n",
+   "new": "## Where it came from\n\nAnthropic's *AI-native SDLC playbook* course (14 lessons,\n<https://academy.claude.com/courses/ai-native-sdlc-playbook/introduction>). The\nworkflow skills cover intent, spec, plan, CLAUDE.md, parallel sessions,\nself-checks and ship. These kits cover the enforcement side: hooks that block\nduring the build and hooks that ask for approval (lessons 6, 8, 11) are\n`gate-hooks`; the review policy file and its reviewer (lesson 10) are\n`review-policy`.\n\n"
+  },
+  {
+   "file": "GATES.md",
+   "old": "/plugin marketplace update dc-dev-plugins\n/plugin install pm-sp@dc-dev-plugins",
+   "new": "/plugin marketplace update tc-plugins\n/plugin install tc-workflow@tc-plugins"
+  },
+  {
+   "file": "GATES.md",
+   "old": "- The gates bind Claude Code only. Codex and other agents working in the same\n  repo, including Ringer workers on another engine, do not read these hooks.",
+   "new": "- The gates bind Claude Code only. Other agents working in the same repo do\n  not read these hooks."
+  },
+  {
+   "file": "GATES.md",
+   "old": "pm/   (only the parts that came from sdlc)",
+   "new": "tc-workflow/   (only the gate and review parts)"
+  },
+  {
+   "file": "GATES.md",
+   "old": "The 2026-09-03 riff this grew from, and pm's WORKFLOW before the doctrine\nsplit, are design notes and do not ship: `docs/sdlc/` at the repo root.\n\nTests are in `tests/test_sdlc_plugin.py` at the repo root.\n",
+   "new": ""
+  },
+  {
+   "file": "hooks/test-credential-guard.sh",
+   "old": "(Fable #1)",
+   "new": "(review #1)"
+  },
+  {
+   "file": "hooks/test-credential-guard.sh",
+   "old": "(Astra #1)",
+   "new": "(review #2)"
+  },
+  {
+   "file": "hooks/test-credential-guard.sh",
+   "old": "(Astra #2)",
+   "new": "(review #3)"
+  },
+  {
+   "file": "skills/credential-guard/SKILL.md",
+   "old": "(pm-sp or pm, never both)",
+   "new": ""
+  },
+  {
+   "file": "skills/credential-guard/SKILL.md",
+   "old": "(`git -C \"$REPO\" show`, pm 0.30.1,\npm-sp 0.2.7)",
+   "new": "(`git -C \"$REPO\" show`)"
+  },
+  {
+   "file": "skills/credential-guard/SKILL.md",
+   "old": "This hook and its policy are a copy of pm's (`pm/hooks`, `pm/scripts/credential_*`); change pm first and copy across, so the two never drift (`tests/test_pm_sp_plugin.py` checks they match). Run `bash pm-sp/hooks/test-credential-guard.sh` and\n`python3 -m pytest tests/test_sdlc_credential_guard.py -q` from the\nmarketplace root after any change. build-swarm keeps a snapshot of the policy:\ncheck parity with `python3 scripts/sync_pm_policy.py --build-swarm <source-dir> --check`.",
+   "new": "This hook and its policy are copied unchanged from the upstream plugin at a\npinned commit. Run `bash hooks/test-credential-guard.sh` from the plugin folder\nafter any change."
+  },
+  {
+   "file": "skills/design-handoff/SKILL.md",
+   "old": "## Where it sits in pm-sp (pm-sp)",
+   "new": "## Where it sits in the workflow"
+  },
+  {
+   "file": "skills/gate-hooks/SKILL.md",
+   "old": "Codex and other agents working in the same repo",
+   "new": "Other agents working in the same repo"
+  },
+  {
+   "file": "skills/okf/SKILL.md",
+   "old": "everywhere Joe uses OKF — datacraft projects, domain builders, anywhere",
+   "new": "everywhere OKF is used, anywhere"
+  },
+  {
+   "file": "skills/review-policy/SKILL.md",
+   "old": " Where a multi-seat review gate already runs, such as Ringer's `cross-review-gate`, keep that gate for the reviews it is chosen for and name `REVIEW.md` in its brief, so both tiers apply one policy.",
+   "new": " The workflow's `review` skill (code and function reviewers) reads `REVIEW.md` too, so both apply one policy."
+  },
+  {
+   "file": "skills/writing-plans/SKILL.md",
+   "old": "it is the ticket's worktree, made by `runway take T-n` at execution time (agent-runway:hands-on). With no ticket (a repo not in Runway, or a spec that says `runway: no`), it is a branch or git worktree of this checkout.",
+   "new": "it is the ticket's worktree, made by tc-workflow:work-ticket at execution time. With no ticket, it is a branch or git worktree of this checkout."
+  },
+  {
+   "file": "skills/executing-plans/SKILL.md",
+   "old": "Close the ticket with agent-runway:hands-on (`runway done T-n`). With no ticket, finish the branch as\nagent-runway:hands-on says under \"No tickets\".",
+   "new": "Finish the branch with tc-workflow:finish: the two fresh reviews, then the\nperson merges. With no ticket it works the same on the plan's branch."
+  },
+  {
+   "file": "skills/design-handoff/SKILL.md",
+   "old": "those Acceptance lines are checked hands-on.",
+   "new": "those Acceptance lines are `You check` lines, confirmed by the user."
+  },
+  {
+   "file": "skills/writing-plans/SKILL.md",
+   "old": "it should have been broken into sub-project specs during brainstorming",
+   "new": "it should have been broken into sub-project specs while shaping (grill, spec)"
+  }
+ ],
+ "tokens": [
+  {
+   "old": "\"Close the ticket: agent-runway:hands-on\"",
+   "new": "\"Finish the branch: tc-workflow:finish\""
+  },
+  {
+   "old": "(`runway take T-n` makes one; agent-runway:hands-on)",
+   "new": "(tc-workflow:work-ticket makes one)"
+  },
+  {
+   "old": ".runway/sdd",
+   "new": ".workflow/sdd"
+  },
+  {
+   "old": "agent-runway:",
+   "new": "tc-workflow:"
+  },
+  {
+   "old": "pm-sp:",
+   "new": "tc-workflow:"
+  },
+  {
+   "old": "pm-sp",
+   "new": "tc-workflow"
+  }
+ ]
+}
