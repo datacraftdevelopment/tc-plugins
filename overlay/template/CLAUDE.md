@@ -72,8 +72,10 @@ one-page version.
   (auth, payments, data, migrations, CI, secrets) gets the user's own read of
   the diff too.
 - **Bugs:** `systematic-debugging`. Reproduce before fixing.
-- **Model economy.** Subagents always name their model: `sonnet` to build,
-  `opus` for judgment and every review, whatever the main session runs on.
+- **Model economy.** Every subagent and nested session names its model, never
+  inheriting this session's: `sonnet` to build, explore, research and merge,
+  `opus` for judgment (design, hard bugs) and every review. Opus is the
+  ceiling: a Fable main session still starts nothing above Opus. Never Haiku.
 
 ## The taxonomy: known folders, created on first write
 

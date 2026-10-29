@@ -17,8 +17,13 @@
       ]
     },
     {
-      "pattern": "\\bfable\\b|\\bhaiku\\b",
-      "why": "model names outside the TC model rule"
+      "pattern": "\\bhaiku\\b",
+      "why": "Haiku is outside the model rule",
+      "allow_in": [
+        "WORKFLOW\\.md",
+        "template/CLAUDE\\.md",
+        "README\\.md"
+      ]
     },
     {
       "pattern": "granola",

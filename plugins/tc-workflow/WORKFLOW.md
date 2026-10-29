@@ -95,8 +95,16 @@ and records the result in `docs/shipped/`. The plugin never deploys.
 
 ## Model rule
 
-Subagents always name their model: `sonnet` to build, `opus` for judgment and
-every review, whatever the main session runs on.
+Every subagent and every nested session names its model; none inherits the
+main session's. Pick the lowest model that fits the work:
+
+- `sonnet` for building to a clear spec or plan, mechanical edits,
+  exploration, research, merges and small fix passes;
+- `opus` for judgment: design choices, hard debugging, reading a spec as its
+  builder, and every review.
+
+**Opus is the ceiling.** When the main session runs on Fable, everything it
+starts runs on Opus at most, and on Sonnet when the work allows. Never Haiku.
 
 ## When the plugin itself gets in the way
 

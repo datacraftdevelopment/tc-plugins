@@ -63,10 +63,16 @@ One nested session per ticket, through the host's session control. On the
 command line that is
 
 ```bash
-claude --bg --name <ticket-id> "<brief>"
+claude --bg --model <sonnet|opus> --name <ticket-id> "<brief>"
 ```
 
-which prints the session's short id. Name each one after its ticket so messages
+which prints the session's short id. **Always pass `--model`**: a nested
+session started without it inherits the main session's model. Pick by the
+ticket: `sonnet` for a ticket that is building to a clear spec (most of them),
+`opus` for one that needs judgment (a design call the spec left open, a hard
+bug, a risky migration). Opus is the ceiling: even when the main session runs
+on Fable, no nested session runs above Opus. See the model rule in
+`WORKFLOW.md`. Name each one after its ticket so messages
 can address it by name. If the host has its own control for starting a nested
 session, use that instead. Give it a short self-contained brief that points at
 things rather than copying them:

@@ -324,7 +324,7 @@ twice is marked blocked and the rest carry on.
 ### Nested sessions
 
 Say "set up nested sessions for T-3 and T-4". The main session starts a
-background Claude Code session per ticket (`claude --bg --name <ticket>`),
+background Claude Code session per ticket (`claude --bg --model sonnet --name <ticket>`, or `opus` when the ticket needs judgment; never above Opus),
 watches for their messages, answers their questions from the spec when it can,
 brings you the real decisions, runs the two reviews on each finished branch,
 and lands them one at a time on your go. You only talk to the main session,
@@ -482,8 +482,11 @@ kind that pick it up.
 Agents (started by the skills, not by you): `code-reviewer`,
 `function-reviewer`, `policy-reviewer`.
 
-**Model rule.** Subagents always name their model: `sonnet` builds, `opus`
-judges and reviews, whatever model your own session runs on.
+**Model rule.** Every subagent and nested session names its model and never
+inherits yours. The lowest model that fits the work: `sonnet` builds,
+explores, researches and merges; `opus` judges (design, hard bugs) and
+reviews. **Opus is the ceiling**: even when your session runs on Fable,
+nothing it starts runs above Opus. Never Haiku.
 
 ---
 

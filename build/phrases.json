@@ -105,6 +105,36 @@
    "file": "skills/writing-plans/SKILL.md",
    "old": "it should have been broken into sub-project specs during brainstorming",
    "new": "it should have been broken into sub-project specs while shaping (grill, spec)"
+  },
+  {
+   "file": "skills/subagent-driven-development/SKILL.md",
+   "old": "Use the least powerful model that can handle each role to conserve cost and increase speed.\n\n**Mechanical implementation tasks** (isolated functions, clear specs, 1-2 files): use a fast, cheap model. Most implementation tasks are mechanical when the plan is well-specified.\n\n**Integration and judgment tasks** (multi-file coordination, pattern matching, debugging): use a standard model.\n\n**Architecture and design tasks**: use the most capable available model.\nThe final whole-branch review is one of these — dispatch it on the most\ncapable available model, not the session default.\n\n**Review tasks**: choose the model with the same judgment, scaled to the\ndiff's size, complexity, and risk. A small mechanical diff does not need the\nmost capable model; a subtle concurrency change does. Scoped re-reviews of\nsmall fix diffs take a cheap-to-mid tier.",
+   "new": "Use the least powerful model that can handle each role to conserve cost and increase speed. Always name it: a subagent never inherits the session's model. **`opus` is the ceiling**, whatever the main session runs on (see the model rule in `WORKFLOW.md`).\n\n**Mechanical implementation tasks** (isolated functions, clear specs, 1-2 files): `sonnet`. Most implementation tasks are mechanical when the plan is well-specified.\n\n**Integration tasks** (multi-file coordination, pattern matching): `sonnet`. Hard debugging: `opus`.\n\n**Architecture and design tasks**: `opus`.\nThe final whole-branch review is one of these: dispatch it on `opus`, not the\nsession default.\n\n**Review tasks**: `opus` for task reviews and the final review. Scoped\nre-reviews of small fix diffs may take `sonnet`."
+  },
+  {
+   "file": "skills/subagent-driven-development/SKILL.md",
+   "old": "- Touches 1-2 files with a complete spec → cheap model\n- Touches multiple files with integration concerns → standard model\n- Requires design judgment or broad codebase understanding → most capable model",
+   "new": "- Touches 1-2 files with a complete spec → `sonnet`\n- Touches multiple files with integration concerns → `sonnet`\n- Requires design judgment or broad codebase understanding → `opus` (the ceiling)"
+  },
+  {
+   "file": "skills/subagent-driven-development/SKILL.md",
+   "old": "use the cheapest tier for\nthat implementer. Single-file mechanical fixes also take the cheapest tier.",
+   "new": "use `sonnet` (never\nbelow it) for that implementer. Single-file mechanical fixes also take `sonnet`."
+  },
+  {
+   "file": "skills/executing-plans/SKILL.md",
+   "old": "dispatch the reviewer on the most capable\navailable model — the whole-branch review is a judgment task",
+   "new": "dispatch the reviewer on `opus`\n— the whole-branch review is a judgment task"
+  },
+  {
+   "file": "skills/executing-plans/SKILL.md",
+   "old": "which may not be the\nmost capable.",
+   "new": "which may be above\nor below `opus`, the ceiling for every subagent."
+  },
+  {
+   "file": "skills/writing-plans/SKILL.md",
+   "old": "one fresh reviewer on the most capable model checks the whole branch",
+   "new": "one fresh reviewer on `opus` checks the whole branch"
   }
  ],
  "tokens": [
