@@ -15,7 +15,6 @@
     {"from": "pm-sp:skills/checkpoint/", "to": "skills/checkpoint/"},
     {"from": "pm-sp:skills/codebase-design/", "to": "skills/codebase-design/"},
     {"from": "pm-sp:skills/credential-guard/", "to": "skills/credential-guard/"},
-    {"from": "pm-sp:skills/design-handoff/", "to": "skills/design-handoff/"},
     {"from": "pm-sp:skills/domain-modeling/", "to": "skills/domain-modeling/"},
     {"from": "pm-sp:skills/gate-hooks/", "to": "skills/gate-hooks/"},
     {"from": "pm-sp:skills/okf/", "to": "skills/okf/"},

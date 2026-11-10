@@ -1,4 +1,4 @@
-"""Run with: python3 -m unittest discover tests  (needs checkouts of the two sources, see build/sources.json)."""
+"""Run with: python3 -m unittest discover tests  (needs a checkout of the source, see build/sources.json)."""
 import json
 import subprocess
 import sys

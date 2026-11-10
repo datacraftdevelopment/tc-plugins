@@ -57,6 +57,12 @@ revision from the one checked in step 2 needs step 2 again.
 For a delivered document or tool, identify the exact file that was handed
 over and where it went, and check that file.
 
+**The first time a project goes live,** read `docs/agents/merge-policy.md`. If
+its `Merge:` line is `on-pass`, say so and ask once: "This is live now. Switch
+merges to ask-first?" Recommend yes. Change the line and add a History entry
+only on their typed word; if they keep `on-pass`, note that in History too so
+it isn't asked again.
+
 ## 4. Write the record
 
 Status is one of:

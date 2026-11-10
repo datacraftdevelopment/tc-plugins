@@ -300,7 +300,7 @@ plan's workspace directory — the git history is the record now. Sibling
 directories belong to other plans; leave them alone.
 
 Finish the branch with tc-workflow:finish: the two fresh reviews, then the
-person merges. With no ticket it works the same on the plan's branch.
+merge by the repo's merge policy. With no ticket it works the same on the plan's branch.
 
 ## Common Rationalizations
 

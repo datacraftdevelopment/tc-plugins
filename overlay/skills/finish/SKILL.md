@@ -1,16 +1,18 @@
 ---
 name: finish
-description: "Close a finished branch: bring it up to date, run the checks, push it and open the pull request, run the two fresh reviews, one fix pass if they fail, then merge only on the person's typed go and close the ticket. Use when a ticket's or plan's work is built and green, when the person says 'finish this', 'wrap up the branch', 'get it merged', or when work-ticket, subagent-driven-development or executing-plans reach their end."
+description: "Close a finished branch: bring it up to date, run the checks, push it and open the pull request, run the two fresh reviews, one fix pass if they fail, then merge by this repo's merge policy (the person's typed go, or on its own when everything passed and the policy is on-pass) and close the ticket. Use when a ticket's or plan's work is built and green, when the person says 'finish this', 'wrap up the branch', 'get it merged', or when work-ticket, subagent-driven-development or executing-plans reach their end."
 ---
 
 # Finish a branch
 
 Every branch ends here, whether one ticket, a whole plan or an integration
-branch from `implement-spec`. **The person merges.** Nothing here merges on
-its own, and a passing review is not a go.
+branch from `implement-spec`. **The repo's merge policy decides who merges,**
+and the person chose that policy.
 
 Read `docs/agents/issue-tracker.md` first: it says whether tickets live in
-`docs/TASKS.md` (`Tracker: tasks`) or GitHub Issues (`Tracker: github`).
+`docs/TASKS.md` (`Tracker: tasks`) or GitHub Issues (`Tracker: github`). Then
+read the `Merge:` line of `docs/agents/merge-policy.md`: `ask` or `on-pass`.
+No file or no line means `ask`.
 
 ## 1. Up to date and green
 
@@ -50,24 +52,43 @@ Run `review` on the head commit. Both reviewers must pass.
 When the branch came from `subagent-driven-development`, this review **is**
 the final whole-branch review: don't run another on top.
 
-## 4. Bring it to the person
+## 4. Decide who merges
 
-Mark the pull request ready. Then tell the person, in a few lines:
+Mark the pull request ready. Then apply the merge policy.
+
+**`on-pass`, and every one of these is true:** both reviewers passed this
+head sha; the check is green on it; no `You check` line is open; the ticket is
+not `Sensitive: yes` and no reviewer raised it. Then merge now (step 5) and
+tell the person afterwards in one or two lines: what merged, the sha, both
+verdicts, and where the screenshots are if the review took any. Rulings made
+on their behalf still get listed.
+
+**`ask`, or any one of those is false:** bring it to the person, in a few
+lines:
 
 - the branch, the head sha, and the pull request link;
 - both verdicts, and the evidence for each Acceptance line (one line each);
+- for lines that say "matches POC screen S…": the screenshots the function
+  reviewer took, built screen beside POC screen, by path;
 - the `You check` lines and what they confirmed, or what still needs them;
 - any rulings the plan made on their behalf, and deferred minor findings;
 - if the ticket is `Sensitive: yes`, or a reviewer raised it: "please read
-  the diff before you say go," with the files that matter.
+  the diff before you say go," with the files that matter;
+- under `on-pass`, which condition sent this one to them.
 
 Then ask: "Merge it?" and **stop**. The go must be the person's own typed
 word for this branch, at this sha.
 
-## 5. Merge on go
+**Several branches waiting at once.** List them together and ask once. A go
+may cover all of them ("merge them all") or name some. Merge in dependency
+order, each at its reviewed sha. One that no longer merges cleanly after an
+earlier one is brought up to date, and that new head needs its review again
+before it merges; say so rather than stretching the go to cover it.
 
-Only after the go, and only if the head is still the reviewed sha (a new
-commit means step 3 again):
+## 5. Merge
+
+Only by step 4, and only if the head is still the reviewed sha (a new commit
+means step 3 again):
 
 - **github, or any remote:** `gh pr merge <n> --merge --match-head-commit
   <sha>` (or the repo's merge style), or the person presses merge themselves.
@@ -89,7 +110,10 @@ different commit from the one reviewed.
 
 ## Never
 
-- Merge, or mark a ticket done, without the person's typed go for this branch.
+- Merge, or mark a ticket done, outside the merge policy: under `ask`,
+  without the person's typed go for this branch; under `on-pass`, with any of
+  its conditions unmet.
+- Change the merge policy, or treat a go for one branch as a change to it.
 - Count a review of an earlier commit.
 - Lower the bar to get green: skip or delete a test, loosen a check, or
   weaken an Acceptance line. A line that can't be met goes back to the person.

@@ -67,11 +67,6 @@
    "new": "This hook and its policy are copied unchanged from the upstream plugin at a\npinned commit. Run `bash hooks/test-credential-guard.sh` from the plugin folder\nafter any change."
   },
   {
-   "file": "skills/design-handoff/SKILL.md",
-   "old": "## Where it sits in pm-sp (pm-sp)",
-   "new": "## Where it sits in the workflow"
-  },
-  {
    "file": "skills/gate-hooks/SKILL.md",
    "old": "Codex and other agents working in the same repo",
    "new": "Other agents working in the same repo"
@@ -85,18 +80,9 @@
    "file": "skills/review-policy/SKILL.md",
    "old": " Where a multi-seat review gate already runs, such as Ringer's `cross-review-gate`, keep that gate for the reviews it is chosen for and name `REVIEW.md` in its brief, so both tiers apply one policy.",
    "new": " The workflow's `review` skill (code and function reviewers) reads `REVIEW.md` too, so both apply one policy."
-  },
-  {
-   "file": "skills/design-handoff/SKILL.md",
-   "old": "those Acceptance lines are checked hands-on.",
-   "new": "those Acceptance lines are `You check` lines, confirmed by the user."
   }
  ],
  "tokens": [
-  {
-   "old": "agent-runway:",
-   "new": "tc-workflow:"
-  },
   {
    "old": "pm-sp:",
    "new": "tc-workflow:"

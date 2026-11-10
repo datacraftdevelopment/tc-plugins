@@ -1,14 +1,27 @@
 # The workflow, on one page
 
-How work moves from an idea to production with this plugin. Every step is a
-skill; you can name it, or let the session pick it up from what you say.
+How work moves from an idea to production with this plugin. You say what you
+want built once; `intake` picks the path and runs the stages in order. You
+steer at four points and are otherwise left alone.
 
 ```
-whats-next ──► shape ──► spec ──► tickets ──► build ──► review ──► you merge ──► ship-acceptance ──► stepping-away
-               map                file-        work-ticket        code +        finish             against the
-               grill              tickets      implement-spec     function                         real thing
-               prototype                       nested sessions    reviewers
+"I want X" ─► brief ─► questions ─► POC on mock data ─► spec + tickets ─► build ─► review ─► merge ─► ship-acceptance
+              ▲ 1      (5 to 8)     ▲ 2 you play,       ▲ 3 one go,       first              ▲ 4 by the
+              is this               change, approve     and how to        slice              merge policy
+              the thing?                                build it          shown
 ```
+
+| Steer point | You look at | Your answer starts |
+| --- | --- | --- |
+| 1. Brief | Half a page: what, who, the main journey, what is out | The questions, the data sample, the POC |
+| 2. POC | A working page in your browser, until you type approved | The spec and the ticket table |
+| 3. Spec and tickets | One spec, one table, and all at once or one at a time | The whole build, through review |
+| 4. Merge | Verdicts, screenshots beside the POC, the diff when sensitive | The merge. Under `on-pass` this point is skipped when everything passed. |
+
+Between those points the session asks only when an answer would change what
+you'd see, or a step can't be undone. Small, fully specified jobs skip all of
+it and are just done, test-first. Work with nothing to look at (a command, a
+service, a refactor) skips the POC: full `grill`, then `spec`.
 
 ## 1. Open and close every session
 
@@ -22,31 +35,43 @@ whats-next ──► shape ──► spec ──► tickets ──► build ─�
 `docs/` is the shared truth. `_pm/` is your personal log and never wins an
 argument with `docs/`.
 
-## 2. Shape before you build
+## 2. Shape before you build: see it first
 
-- `grill`: the session interviews you one question at a time until every open
-  branch is settled. Asks, never builds.
-- `prototype`: a throwaway build to settle one question by seeing it.
-- `map`: for work too foggy for one session, a map of the decisions it needs,
-  settled one at a time across sessions.
-- `design-handoff`: for screens, a brief for Claude Design before the spec.
-- `spec`: writes it up in `docs/specs/`, with **Acceptance** lines: three to
-  six observable checks, each saying how to verify it. Everything after this
-  is measured against those lines.
-
-A quick, fully specified task skips shaping: it is just done, test-first.
+- `intake`: the front door. Sizes the request, writes the brief, runs what
+  follows.
+- `grill`: one question at a time, each with a recommended answer. **To a
+  POC** it asks five to eight questions and assumes the rest; **after the
+  POC** it covers what no screen shows (edges, errors, permissions, rules);
+  **full** is for work with nothing to look at. Asks, never builds.
+- `poc`: the main journey, clickable, on JSON mock data shaped like the real
+  data, in `docs/poc/<topic>/`. You play with it, your remarks are sorted
+  (change now, decision, question, not this job), it changes, and that loops
+  until you type approved. It is kept: the spec links its screens, its JSON
+  becomes the test fixtures, and reviewers compare built screens against it.
+- `prototype`: a throwaway build to settle one narrow question.
+- `map`: for work too foggy for one spec, a map of the decisions it needs,
+  settled one at a time across sessions. Each chunk it ends with goes through
+  intake.
+- `design-handoff`: optional, after the POC is approved, when the visual
+  design deserves more than the POC gives: a brief for Claude Design. What
+  comes back lands in `resources/design-handoff/` and the spec links it.
+- `spec`: writes it up in `docs/specs/`, pointing at the POC, with
+  **Acceptance** lines: three to six observable checks, each saying how to
+  verify it. Everything after this is measured against those lines.
 
 ## 3. Tickets
 
 `file-tickets` cuts a spec into small tickets in the tracker this repo chose
 at scaffold (`docs/agents/issue-tracker.md`): `docs/TASKS.md` in the repo, or
 GitHub Issues. Each ticket has its Acceptance lines, what it waits on, and the
-lines only you can check (how it looks or feels, a real device). It files
-only after you type go.
+lines only you can check (a real device, your own judgement). With a POC, the
+first ticket is the **first slice**: the main journey made real, as thin as it
+can be, shown to you running before the rest start. The table comes with the
+spec, and one typed go covers both and how they are built.
 
 ## 4. Build
 
-Three ways, from the most hands-on to the most hands-off:
+Three ways:
 
 - **One ticket at a time:** `work-ticket`. A worktree and branch for the
   ticket, a plan if it is more than a step or two (`writing-plans`), built by
@@ -54,16 +79,21 @@ Three ways, from the most hands-on to the most hands-off:
   test-first (`test-driven-development`), bugs through
   `systematic-debugging`, and no "done" without output
   (`verification-before-completion`).
-- **A whole spec in one go:** say "implement spec". Background
-  subagents take every ready ticket at once, each in its own worktree; a
-  merger folds each into one integration branch; the next ready tickets
-  start. Only when you ask for it by name.
+- **A whole spec in one go:** pick "all at once" when you approve the
+  tickets (`implement-spec`). The first slice is built and shown to you; on
+  your yes, background subagents take every ready ticket at once, each in its
+  own worktree; a merger folds each into one integration branch and checks it;
+  the next ready tickets start. One review and one merge for the whole spec.
 - **Nested sessions:** say "set up nested sessions" and the main session
   starts two or three background Claude Code sessions, one per ticket,
   steers them and lands their work. Only when you ask for it by name, on
   your own Mac.
 
-## 5. Review, then you merge
+A builder may settle technical questions alone and write them down. A choice
+that would show, anything that makes a screen or a behaviour differ from the
+approved POC or the spec, is yours: it stops and asks.
+
+## 5. Review, then the merge
 
 `finish` closes every branch the same way: the checks, then `review`, which
 sends the exact commit to two fresh reviewers that never saw it being built:
@@ -71,13 +101,27 @@ sends the exact commit to two fresh reviewers that never saw it being built:
 - the **code reviewer** reads the diff for bugs, risk and anything that
   lowers the bar (skipped tests, loosened checks);
 - the **function reviewer** runs the checks and walks every Acceptance line
-  at that commit, with the evidence for each.
+  at that commit, with the evidence for each. For a line that says a screen
+  matches the POC, it screenshots both and compares them.
 
-Both must pass. One fix pass and one re-review, then it comes to you. A
-verdict is for one commit: new code needs a new review. Lines only you can
-check are yours to confirm. **Nothing merges without your typed go**, and
-anything touching security, payments, data migrations, CI or secrets gets your
-own read of the diff too.
+Both must pass. One fix pass and one re-review. A verdict is for one commit:
+new code needs a new review. Lines only you can check are yours to confirm.
+
+**Who merges is this project's merge policy**
+(`docs/agents/merge-policy.md`), which you chose at scaffold and can change
+with a sentence:
+
+- `ask`: nothing merges without your typed go. Several finished branches are
+  brought to you together, and one go can merge them all. For anything
+  hosted, client-facing or carrying real data.
+- `on-pass`: a branch merges on its own when both reviewers passed that exact
+  commit, the check is green, no line is waiting on you, and nothing is
+  sensitive. You get a line saying what merged. For a local prototype or a
+  build nobody depends on yet.
+
+Under either, anything touching security, payments, data migrations, CI or
+secrets waits for your own read of the diff and your go. When a project first
+goes live, `ship-acceptance` asks whether to switch to `ask`.
 
 ## 6. Ship
 

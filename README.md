@@ -3,11 +3,16 @@
 A complete way of building software with **Claude Code**, packaged as one
 plugin: `tc-workflow`.
 
-You shape an idea until it is clear, write it up as a spec with checks anyone
-can run, cut it into small tickets, and let Claude build each one test-first.
-Every finished branch is checked by two fresh reviewers that never saw it
-being built. **Nothing merges until you say so**, and nothing counts as
-delivered until the spec's checks pass against the real thing.
+You say what you want built. Claude shows you a short brief, then a clickable
+**POC on mock data** that you play with and change until it is right. Only
+then does it write the spec, cut it into small tickets and build each one
+test-first. Every finished branch is checked by two fresh reviewers that never
+saw it being built. **You choose per project who merges**: you, every time, or
+the reviews, when everything passes. Nothing counts as delivered until the
+spec's checks pass against the real thing.
+
+You steer at four points (the brief, the POC, the spec with its tickets, the
+merge) and are left alone between them.
 
 It needs nothing but Claude Code, git and Python 3. No other AI tool, no
 separate app, no server.
@@ -94,6 +99,9 @@ type is in quotes; you can use your own words.
 
 - **where tickets should live**: `docs/TASKS.md` in the repo, or GitHub
   Issues (see [section 4](#4-where-tickets-live-tasksmd-or-github-issues));
+- **how merges should work**: ask you before every merge, or merge on its
+  own once both reviews pass (see [section 6](#6-review-and-merge)). Pick the
+  second for a local prototype, the first for anything live;
 - **the repo's check command**: whatever runs your tests, build and lint
   (`npm test`, `python3 -m unittest`, `./gradlew check`). The reviewers run it;
 - **five short questions** for `_pm/skeleton.md`: what's true when this is
@@ -107,11 +115,22 @@ tickets, specs, plans and your last sessions, proposes what to pick up, and
 writes this session's *Intent* (two or three sentences on what this session
 is for).
 
-**3. Shape the work.** "I want users to be able to export their orders as
-CSV. Grill me." The `grill` skill asks one question at a time until nothing
-important is left open. Then "write the spec": `spec` writes
-`docs/specs/2026-10-28-csv-export.md` with what it does, what it doesn't, and
-three to six **Acceptance** lines, each with a way to verify it:
+**3. Say what you want.** "I want users to be able to export their orders as
+CSV." That's all; you don't name the steps. `intake` sizes it, and shows you a
+half-page brief: what, who, the main journey, what's out. You say go, or fix
+it.
+
+Because this has a screen, the next thing you get is a **POC**, not a
+document. `grill` asks five to eight questions (only the ones that change
+what you'd see), `poc` writes mock data shaped like your real orders into
+`docs/poc/csv-export/data/orders.json`, builds the Orders page with the
+Export button as plain HTML, and gives you an address to open. You click
+around and say what's wrong. It sorts your remarks, changes the POC, asks the
+questions no screen can answer (what about an account with no orders?), and
+repeats until you type **approved**.
+
+Then `spec` writes `docs/specs/2026-10-28-csv-export.md`, pointing at the POC,
+with three to six **Acceptance** lines, each with a way to verify it:
 
 ```markdown
 ## Acceptance
@@ -120,11 +139,13 @@ three to six **Acceptance** lines, each with a way to verify it:
 - [ ] A3: An account with no orders gets a file with only the header. Verify: tests/test_export.py::test_empty.
 ```
 
-**4. Cut it into tickets.** "File tickets." `file-tickets` proposes a table:
-each ticket, what it waits on, any lines only you can check, whether it's
-sensitive. **It files nothing until you type go.**
+**4. One go for the spec and its tickets.** The spec comes with a table from
+`file-tickets`: each ticket, what it waits on, any lines only you can check,
+whether it's sensitive. The first ticket is the **first slice**: the main
+journey made real, as thin as possible. It asks: "File these and build them?
+All at once, or one at a time?" **It files nothing until you type go.**
 
-**5. Build one.** "Work the next ticket." `work-ticket` gives the ticket its
+**5. Build.** Say "one at a time" and `work-ticket` gives the first ticket its
 own worktree and branch (`.worktrees/t-1`, branch `t-1-export-button`), marks
 it in progress, writes a short plan if it needs one, and builds it
 test-first: a failing test, then the code that makes it pass, then the whole
@@ -133,13 +154,15 @@ check.
 **6. Finish it.** At the end, `finish` brings the branch up to date, runs the
 check, opens a pull request (when the repo has a remote), and sends the exact
 commit to **two fresh reviewers**: one reads the code, one runs every
-Acceptance line and shows the evidence. Then it stops and asks you:
+Acceptance line and shows the evidence. What happens next is your merge
+policy. With **ask**, it stops:
 
 > Both reviews pass on 1c9affc. A1: test_download ok. A2: header and 3 rows.
 > A3: test_empty ok. Merge it?
 
-You say "go". It merges, marks the ticket done, removes the worktree, and
-names the tickets that are now ready.
+You say "go". With **on-pass** it merges without asking, because everything
+passed, and tells you in a line. Either way it marks the ticket done, removes
+the worktree, and names the tickets that are now ready.
 
 **7. Close the session.** "I'm stepping away." `stepping-away` writes what
 shipped against the Intent, a line for anything still open, and loose ideas
@@ -156,12 +179,12 @@ That's the whole loop. Everything below is detail.
 ## 3. The workflow, step by step
 
 ```
- whats-next ─► shape ─► spec ─► file-tickets ─► build ─► finish ─► you merge ─► ship-acceptance ─► stepping-away
-               │                                 │        │
-               ├ grill                           ├ work-ticket         review: code reviewer
-               ├ prototype                       ├ implement-spec              + function reviewer
-               ├ map                             └ nested sessions
-               └ design-handoff
+ "I want X" ─► intake ─► grill ─► poc ─► spec + file-tickets ─► build ─► finish ─► merge ─► ship-acceptance
+               brief ①    5 to 8    you play,      one go ③          │        │        ④ by the
+                          questions approve ②                        │        │        merge policy
+                                                                     ├ work-ticket     review: code reviewer
+ ① ② ③ ④ are the only places you're asked.                           ├ implement-spec          + function reviewer
+ whats-next opens a session, stepping-away closes it.                └ nested sessions
 ```
 
 ### Sessions
@@ -186,22 +209,39 @@ they disagree, `docs/` wins.
 
 ### Shaping
 
-Don't start building something that isn't clear yet. Pick what fits:
+You don't pick the steps. Say what you want and **`intake`** sizes it:
 
-- **`grill`** — an interview, one question at a time, until every open
-  branch of the plan is settled. It asks, it never builds. Say "grill me" or
-  "poke holes in this".
-- **`prototype`** — a quick throwaway build to settle one question by seeing
-  it: a screen, a flow, a state model. "Prototype this", "mock it up".
+| The work is… | What happens |
+|---|---|
+| Small and fully specified | Just done, test-first. No brief, no spec. |
+| One piece, nothing to look at (a command, a service, a refactor) | Brief, full `grill`, `spec`, build |
+| Has screens, or data someone has to look at | Brief, a few questions, **POC**, `spec` and tickets, build |
+| Foggy, too big for one spec | It suggests a `map` |
+
+- **`poc`** — the main journey, clickable, on JSON mock data, in
+  `docs/poc/<topic>/`. The data comes first and is shaped like the real thing
+  (from a schema, an API response, an export), with made-up values and the
+  ugly rows put in on purpose: the very long name, the empty list. You play
+  with it; every remark is sorted into *change it now*, *a decision for the
+  spec*, *a question*, or *not this job*; it changes; and that repeats until
+  you type approved. **The POC is kept.** The spec links its screens, its JSON
+  becomes the test fixtures, reviewers compare built screens against it, and a
+  builder whose choice would differ from it has to stop and ask you.
+- **`grill`** — an interview, one question at a time, each with a recommended
+  answer. *To a POC*: five to eight questions and it assumes the rest, because
+  you'll settle them faster by looking. *After the POC*: what no screen shows
+  (edges, errors, who may see what, data rules). *Full*: for work with nothing
+  to look at, until every open branch is settled. It asks, it never builds.
+- **`prototype`** — a quick throwaway build to settle one narrow question by
+  seeing it. "Prototype this", "which of these two layouts".
 - **`map`** — for work too big or too foggy for one session. It charts the
   decisions the work needs in `docs/maps/<effort>/` and settles them one at a
   time across sessions. Its end is a list of chunks, each of which gets its
   own spec. It's suggested, never started unless you ask.
-- **`design-handoff`** — for work with screens: a brief you paste into
-  Claude Design, with a small sample of real data. You approve the screens
-  before anything is built.
-
-A quick, fully specified task skips all of this. It's just done, test-first.
+- **`design-handoff`** — optional, after the POC is approved, when the visual
+  design deserves more than the POC gives: a brief you paste into Claude
+  Design. What comes back goes in `resources/design-handoff/` and the spec
+  links it.
 
 ### The spec
 
@@ -273,9 +313,9 @@ Loose ideas never go in the tracker. They go in `docs/inbox.md`, one line each.
 | | `work-ticket` | `implement-spec` | nested sessions |
 |---|---|---|---|
 | What | one ticket, with you | every ticket of a spec, hands-off | two or three tickets at once, each its own session |
-| Starts | when you or `whats-next` pick a ticket | **only when you say "implement spec"** | **only when you ask for it by name** |
+| Starts | when you pick "one at a time", or name a ticket | when you pick "all at once" as you approve the tickets | **only when you ask for it by name** |
 | Where it runs | this session, subagents for the tasks | background subagents, one worktree each | background Claude Code sessions on your computer |
-| You see | every step | the result, and anything that got stuck | one main session that relays questions |
+| You see | every step | the first slice running, then the result and anything that got stuck | one main session that relays questions |
 | Ends in | `finish` | `finish` on the integration branch | `finish` per branch |
 
 ### One ticket at a time: `work-ticket`
@@ -296,23 +336,28 @@ The default. "Work the next ticket", "do T-4", "pick up #12".
 
 ### A whole spec in one go: implement spec
 
-After the tickets are filed, say **"implement spec"** (or "implement the spec
-for CSV export", or type `/tc-workflow:implement-spec docs/specs/<file>.md`).
-It starts only when you name it like that; it never starts on its own. The
-session:
+Pick **"all at once"** when you approve the tickets (or say "implement
+spec" later, or type `/tc-workflow:implement-spec docs/specs/<file>.md`). It
+never starts without that choice. The session:
 
 - reads the tickets as a graph (what waits on what) and finds the ones ready
   now;
+- when the spec has a POC, **builds the first slice alone and shows it to you
+  running**, with screenshots beside the POC's where it can take them: "Is
+  this the thing? The other five build on it." What you change is fixed
+  there, on one ticket. Your yes releases the rest;
 - starts a background builder for each ready ticket, each in its own worktree,
   each building test-first;
 - has a merger fold each finished ticket into one integration branch
-  (`spec/<slug>`), and starts the tickets that just became ready;
+  (`spec/<slug>`), check it and that ticket's own Acceptance lines there, and
+  starts the tickets that just became ready;
 - when all are in, asks you for any lines only you can check, then runs
-  `finish` on the integration branch: one review of the whole thing.
+  `finish` on the integration branch: one review and one merge for the whole
+  spec.
 
-Before the first run, **allow `git` and your check command** in the repo's
-`.claude/settings.json`; background builders can't stop to ask permission, so
-anything not allowed is simply refused. The skill offers to add them:
+Background builders can't stop to ask permission, so **`git` and your check
+command must be allowed** in the repo's `.claude/settings.json`. The scaffold
+offers to add them:
 
 ```json
 { "permissions": { "allow": ["Bash(git:*)", "Bash(npm test:*)"] } }
@@ -327,7 +372,7 @@ Say "set up nested sessions for T-3 and T-4". The main session starts a
 background Claude Code session per ticket (`claude --bg --model sonnet --name <ticket>`, or `opus` when the ticket needs judgment; never above Opus),
 watches for their messages, answers their questions from the spec when it can,
 brings you the real decisions, runs the two reviews on each finished branch,
-and lands them one at a time on your go. You only talk to the main session,
+and lands them one at a time by your merge policy. You only talk to the main session,
 though you can open any of the others.
 
 Needs Claude Code 2.1.236+ running on your own computer, tickets that touch
@@ -353,18 +398,38 @@ Every branch ends in **`finish`**:
      stub, a loosened check, a swallowed error). Any of those fails it;
    - the **function reviewer** runs the check and walks **every Acceptance
      line**, doing what its Verify says and recording the evidence. A line it
-     can't verify is a fail, never a guess. Your `You check` lines count only
-     once you've confirmed them.
+     can't verify is a fail, never a guess. For a line that says a screen
+     **matches the POC**, it screenshots the built screen and the POC screen
+     and compares them (when the repo can drive a browser; otherwise that line
+     comes to you). Your `You check` lines count only once you've confirmed
+     them.
 
    Both must pass. If either fails: **one** fix pass (every finding fixed
    test-first), then **one** re-review of the new commit. A second failure
    stops and comes to you, and the ticket is marked blocked.
-4. **To you.** The verdicts, one line of evidence per Acceptance line, any
-   decisions the plan made on your behalf, and, for sensitive work, "please read
-   the diff before you say go." Then: "Merge it?"
-5. **Merge on your typed go**, and only at the commit that was reviewed. A new
-   commit means a new review.
+4. **Who merges: your merge policy.** See below. When it comes to you, you
+   get the verdicts, one line of evidence per Acceptance line, the
+   screenshots, any decisions the plan made on your behalf, and, for sensitive
+   work, "please read the diff before you say go." Then: "Merge it?"
+5. **Merge**, only at the commit that was reviewed. A new commit means a new
+   review.
 6. **Close.** Ticket done, worktree removed, newly ready tickets named.
+
+### The merge policy
+
+The scaffold asks once per project, and the answer lives in
+`docs/agents/merge-policy.md`:
+
+| | `ask` | `on-pass` |
+|---|---|---|
+| For | anything hosted, client-facing, shared, or carrying real data | a local prototype, a build nobody depends on yet |
+| What happens | every merge waits for your typed go. Several finished branches are brought to you together, and **one go can merge them all** | a branch merges on its own when both reviewers passed that exact commit, the check is green, no line is waiting on you and nothing is sensitive. You get one line saying what merged |
+| Falls back | | to `ask` for any branch that misses one of those |
+
+Change it any time with a sentence: "merge on pass from now on", "ask me
+before every merge". Only your own word changes it; a session never does.
+**Sensitive work always asks**, under either policy. The first time a project
+goes live, `ship-acceptance` asks whether to switch to `ask`.
 
 The reviewers also read `REVIEW.md` if the repo has one (`review-policy`
 writes it), so your team's review rules apply to both.
@@ -422,7 +487,9 @@ folders.**
 ├── docs/                  THE SHARED RECORD
 │   ├── TASKS.md           tickets (when the tracker is tasks)
 │   ├── agents/
-│   │   └── issue-tracker.md   where tickets live, and their format
+│   │   ├── issue-tracker.md   where tickets live, and their format
+│   │   └── merge-policy.md    who merges: ask, or on-pass
+│   ├── poc/               (first POC)         pages, mock data, feedback rounds
 │   ├── inbox.md           loose ideas, one line each
 │   ├── quirks.md          technical gotchas
 │   ├── specs/             (first spec)        what to build, with Acceptance
@@ -446,18 +513,20 @@ kind that pick it up.
 
 | Skill | What it does | Say |
 |---|---|---|
-| `/tc-workflow:scaffold` | Sets up a repo: tracker, check command, skeleton | "/tc-workflow:scaffold here" |
+| `/tc-workflow:scaffold` | Sets up a repo: tracker, merge policy, check command, skeleton | "/tc-workflow:scaffold here" |
+| `intake` | The front door: sizes the request, writes the brief, runs the stages in order | "I want to build…", "let's add…" |
+| `poc` | Clickable POC on JSON mock data; loops on your feedback until approved; kept as the reference | "build a POC", "let me see it first" |
 | `whats-next` | Opens a session: where things stand, what to pick up, the Intent | "what's next?", "where did we leave off?" |
 | `stepping-away` | Closes a session: shipped vs Intent, open threads, inbox | "I'm stepping away", "let's wrap up" |
 | `checkpoint` | Re-aims mid-session | "checkpoint", "re-aim" |
-| `grill` | One question at a time until the plan is settled | "grill me", "poke holes in it" |
-| `prototype` | Throwaway build to settle one question | "prototype this", "show me" |
+| `grill` | One question at a time: a few before the POC, the rest after | "grill me", "poke holes in it" |
+| `prototype` | Throwaway build to settle one narrow question | "prototype this", "which of these two" |
 | `map` | Decisions map for big, foggy work | "map this", "work the map" |
-| `design-handoff` | Brief for Claude Design, data sample first | "design handoff" |
+| `design-handoff` | Optional: a brief for Claude Design, after the POC | "design handoff" |
 | `spec` | Writes the spec with Acceptance lines | "write the spec", "spec this" |
-| `file-tickets` | Cuts a spec into tickets, files on your go | "file tickets", "break this up" |
+| `file-tickets` | Cuts a spec into tickets, first slice first, files on your go | (comes with the spec), "file tickets" |
 | `work-ticket` | Builds one ticket in its own worktree | "work the next ticket", "do T-4" |
-| `implement-spec` | Builds every ticket of a spec with background builders | "implement spec" (only when you say it) |
+| `implement-spec` | Builds every ticket of a spec with background builders, first slice shown to you first | "all at once", "implement spec" |
 | `nested-sessions` | Two or three tickets in parallel sessions | "set up nested sessions" |
 | `writing-plans` | A task-by-task plan in `docs/plans/` | "write a plan" |
 | `subagent-driven-development` | Runs a plan, a fresh subagent per task, each reviewed | (used by work-ticket) |
@@ -466,7 +535,7 @@ kind that pick it up.
 | `systematic-debugging` | Reproduce, find the root cause, then fix | "this is broken", a failing test |
 | `verification-before-completion` | No "done" without fresh output | (always on) |
 | `review` | Two fresh reviewers on one commit | "review this branch" |
-| `finish` | Up to date, PR, review, your go, merge, close | "finish this", "get it merged" |
+| `finish` | Up to date, PR, review, merge by the merge policy, close | "finish this", "get it merged" |
 | `ship-acceptance` | Acceptance against the candidate and production | "ship acceptance", "is this delivered?" |
 | `credential-guard` | Explains the guard when it blocks | (when a commit is blocked) |
 | `gate-hooks` | Repo gates that can't be talked past | "add a gate", "lock the tests" |
@@ -492,8 +561,12 @@ nothing it starts runs above Opus. Never Haiku.
 
 ## 11. Rules the plugin always follows
 
-- **Your typed go** is needed to file tickets, to merge, and to file feedback.
-  A passing review is not a go.
+- **Your typed go** is needed to approve a POC, to file tickets, to file
+  feedback, and to merge under the `ask` policy. Under `on-pass`, a merge
+  needs both reviews, a green check, nothing waiting on you and nothing
+  sensitive; miss one and it asks. Only your word changes the policy.
+- **Nothing is specced past a POC you haven't approved,** and no builder
+  decides alone on anything that would look or behave differently from it.
 - **A review is for one commit.** New commits, a rebase or a conflict fix
   mean a new review.
 - **Never lower the bar** to get green: no skipped or deleted tests, no
@@ -501,9 +574,9 @@ nothing it starts runs above Opus. Never Haiku.
 - **No "done" without output**: the command, what it printed, then the claim.
 - **Never deploys** and never sends anything outside the repo without your say.
 - **Work happens in worktrees**, never on the default branch.
-- **Decisions a plan didn't settle** are made, written down as rulings, and
-  shown to you at the end. Only irreversible, security or outside-the-repo
-  questions stop the work to ask.
+- **Technical decisions a plan didn't settle** are made, written down as
+  rulings, and shown to you. A choice you would see, and irreversible,
+  security or outside-the-repo questions, stop the work to ask.
 
 ---
 
@@ -567,12 +640,13 @@ hosts and anyone's code.
 ## 14. For maintainers: how the plugin is built
 
 `plugins/tc-workflow/` is **generated. Never edit it by hand.** It is cut
-from two public upstream plugins at pinned commits, plus the files this
-edition owns.
+from the files this edition owns (`overlay/`, most of the plugin, including
+every workflow skill) plus a small set of shared guards and reference skills
+taken from one public upstream at a pinned commit.
 
 ```
 .claude-plugin/marketplace.json   the marketplace: one plugin, ./plugins/tc-workflow
-build/sources.json   the two upstreams and the exact commits used
+build/sources.json   the upstream and the exact commit used
 build/files.json     the allowlist: the only upstream files that ship
 build/phrases.json   word-for-word edits to upstream files, then token swaps
 build/banned.json    the clean check: words that must never ship
@@ -585,7 +659,7 @@ tests/               reproducible build, clean check works, guard suite passes
 
 **Build steps**, each fatal on failure:
 
-1. Export each upstream at its pinned commit with `git archive`: tracked files
+1. Export the upstream at its pinned commit with `git archive`: tracked files
    only, links refused.
 2. Copy only what `build/files.json` allows.
 3. Apply `build/phrases.json`: per-file edits (each must match exactly), then
@@ -596,10 +670,9 @@ tests/               reproducible build, clean check works, guard suite passes
 6. Validate JSON and every skill's front matter, check every
    `tc-workflow:<name>` reference resolves, write `BUILD-INFO.json`.
 
-**Rebuild** with public checkouts of
-[dc-dev-plugins](https://github.com/datacraftdevelopment/dc-dev-plugins) and
-[agent-runway](https://github.com/datacraftdevelopment/agent-runway) next to
-this repo (or pass `--pm-sp-src` and `--agent-runway-src`):
+**Rebuild** with a public checkout of
+[dc-dev-plugins](https://github.com/datacraftdevelopment/dc-dev-plugins) next
+to this repo (or pass `--pm-sp-src`):
 
 ```bash
 python3 build/build.py                      # writes plugins/tc-workflow/
@@ -637,7 +710,7 @@ Built by **Joe DaSilva**. The plugin is assembled from:
 - **Agent Runway** (PolyForm Shield 1.0.0; Required Notice: Copyright 2026
   DataCraft Development): `map`, `grill`, `prototype`, and the base of
   `spec`, `file-tickets`, `work-ticket`, `review`, `finish` and the two
-  reviewer agents;
+  reviewer agents. These started there and are now kept and changed here;
 - Joe DaSilva's own session skills, scaffold, guards and kits.
 
 Each part keeps its licence. The full list, with what the build changes in

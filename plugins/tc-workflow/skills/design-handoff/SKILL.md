@@ -21,7 +21,7 @@ Delegating visual exploration is not delegating the user's frontend taste. The u
 
 ## Where it sits in the workflow
 
-For work with screens the order is **data sample → screens in Claude Design → build**. Get a small real sample of the data first (an extract from the source system, or JSON fixtures shaped like it), because the screens need it to take shape. Then write this handoff in data mode, and the user takes it into Claude Design. The design the user approves is what `tc-workflow:spec` links to and what the build and its Acceptance checks are measured against. How the built screens look and feel is the user's to judge: those Acceptance lines are `You check` lines, confirmed by the user. The approved export comes back into the repo under `resources/design-handoff/`.
+Optional, and after the POC. For work with screens the order is **data sample → POC, approved → (this, when the visual design deserves more than the POC gives) → spec → build**. The approved POC (`tc-workflow:poc`, in `docs/poc/<topic>/`) has already settled what is on each screen and how the journey flows, on mock data shaped like the real data. This handoff takes that settled structure and its `data/*.json` into Claude Design for the visual design only: write it in data mode from the POC's data and screens, and the user takes it into Claude Design. The approved export comes back into the repo under `resources/design-handoff/`, and `tc-workflow:spec` links it beside the POC. Where the two differ on structure or flow, the POC wins unless the user says otherwise; where they differ on look, the design wins. A project with no POC (a presentation, a concept) uses this skill on its own, as before.
 
 ## Mode selection
 

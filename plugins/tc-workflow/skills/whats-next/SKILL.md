@@ -30,9 +30,15 @@ and read what's local.
   (`Tracker: tasks` is `docs/TASKS.md`; `Tracker: github` is
   `gh issue list --state open --json number,title,labels,body`). Sort them:
   `in progress` (with their branch and worktree: these are resumes),
-  `in review` (waiting on a fix pass or the person's go to merge), ready (open,
+  `in review` (waiting on a fix pass, or on the person's go when the merge policy is `ask`), ready (open,
   everything they're blocked by done), waiting (blocked by open tickets), and
   `blocked` (with their `Waiting on:` line).
+- **POCs.** `docs/poc/*/poc.md`, each with a `Status:` line. `with you` is
+  waiting on the user: they owe feedback or their approval. `draft` is yours to
+  finish. `approved` with no spec naming it in a `POC:` line is ready to spec.
+- **The merge policy.** The `Merge:` line of `docs/agents/merge-policy.md`
+  (`ask` or `on-pass`; missing means `ask`). It decides whether a reviewed
+  branch is waiting on the user or should already have merged.
 - **Specs not yet filed.** `docs/specs/*.md` with no tickets or plan from
   them: approved specs waiting for a go to file, or drafts waiting for
   approval.
@@ -64,17 +70,19 @@ Keep work the session can take and decisions only the user can make apart.
 ```
 Where we are: <one sentence: which designs and plans exist, how far each got>.
 Ready to pick up: <a ticket in progress to resume, a ready ticket, the first unfinished task of a plan, an approved spec to file, or "nothing in flight">.
-Waiting on you: <a branch to merge, lines to check, a spec to approve, a go to file, open questions, or "nothing">.
+Waiting on you: <a POC to play with or approve, a first slice to look at, branches to merge (all of them, in one line: one go can cover several), lines to check, a spec and its tickets to approve, open questions, or "nothing">.
 Recommended: <one pick-up> because <reason from what you read>.
 Also worth: <maybe one more>.
 Watch-outs: <a plan with no commits in a while, a ledger and git that disagree, an unseated review>.
 ```
 
-New work with nothing shaped yet goes to `tc-workflow:grill` (and
-`tc-workflow:prototype` when seeing beats talking, `design-handoff` for
-screens), ending in `tc-workflow:spec`. Work that is genuinely foggy, with
-several unknowns that depend on each other, gets `tc-workflow:map`: suggest
-it, don't start it; its destination is a set of chunks, a spec each.
+New work with nothing shaped yet goes to `tc-workflow:intake`, which sizes it
+and runs the stages in order: a brief, then for anything with screens a POC
+the user plays with and approves (`tc-workflow:poc`), then the spec and its
+tickets. The user is never asked to name the next stage. Work that is
+genuinely foggy, with several unknowns that depend on each other, gets
+`tc-workflow:map`: suggest it, don't start it; its destination is a set of
+chunks, each of which goes through intake.
 
 ## 3. Write the Intent, when there is one
 
@@ -102,16 +110,16 @@ by its ordinal. On resume, reread that file's Intent and latest re-aim.
 
 ## 4. Work
 
-Shaped work is done here, with the user in the loop. A ticket goes to
-`work-ticket`; a small spec with no tickets too (its "No tickets" section). A
-spec with several pieces goes to `file-tickets` on the user's go, then
-`work-ticket` one at a time, or `implement-spec` when the user
-says "implement spec", or nested sessions when the user asks for them by name. Every branch
-ends in `finish`: two fresh reviews, then the user's go to merge. A quick,
-fully specified task is just done, test-first.
+Shaped work is done here. A ticket goes to `work-ticket`; a small spec with
+no tickets too (its "No tickets" section). A spec with several pieces is shown
+with its ticket table for one go, and the user picks how it is built in the
+same answer: all at once (`implement-spec`) or one at a time (`work-ticket`);
+nested sessions when they ask for them by name. Every branch ends in
+`finish`: two fresh reviews, then the merge by the repo's merge policy. A
+quick, fully specified task is just done, test-first.
 
 ## No history yet
 
 A brand-new project: offer to draft the skeleton if it is still a placeholder,
-or to shape the first piece of work. The Intent is then "draft the
-skeleton" or "shape the first piece".
+or to shape the first piece of work through `intake`. The Intent is then
+"draft the skeleton" or "shape the first piece".

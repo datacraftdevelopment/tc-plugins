@@ -137,8 +137,10 @@ notice wakes you:
   its branch and opened a draft PR; that is fine, the merge is still yours to
   call. The first ready merges first; later ones rebase onto it, and a
   conflict is that nested session's to resolve (and its new head is reviewed
-  again). Merge as `finish` says, steps 4 to 6: only on the user's typed go
-  for that branch at that commit. Push, deploy and client messages keep their
+  again). Merge as `finish` says, steps 4 to 6, by the repo's merge policy:
+  under `ask`, only on the user's typed go for that branch at that commit
+  (one go can cover several ready branches); under `on-pass`, on its own when
+  every condition holds. Push, deploy and client messages keep their
   own authorization.
 - **Idle notice without a report.** Check its state once with
   `claude agents --json --all`: `state` is `working`, `blocked`, `done`,
@@ -204,5 +206,5 @@ and talk to.
 
 - Start on its own. The user asks for nested sessions by name.
 - No lane board and no polling loop.
-- No unattended merges: the user says go for each branch.
+- No merges outside the repo's merge policy (`docs/agents/merge-policy.md`).
 - No more than three at once.
