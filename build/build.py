@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Build the tc-workflow plugin from pinned public sources plus the TC-owned overlay.
+"""Build the tc-workflow plugin from the TC-owned overlay plus one pinned public source.
 
     python3 build/build.py                     # write plugins/tc-workflow/
     python3 build/build.py --check             # build to a temp dir, fail if plugins/ differs
-    python3 build/build.py --pm-sp-src PATH --agent-runway-src PATH
+    python3 build/build.py --pm-sp-src PATH
 
 Steps, in order, every one fatal on failure:
 1. Export each source at its pinned commit with `git archive` (tracked files only; symlinks refused).

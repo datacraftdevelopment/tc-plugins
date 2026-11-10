@@ -48,7 +48,16 @@ Mark the ticket `in progress` and note the branch (tasks: `Status:` and
 - Commit in the worktree as you go, at green points.
 - Decisions the plan didn't settle: make them, write them down as rulings,
   and keep going. Stop to ask only for something irreversible, a security
-  question, anything outside the worktree, or a ticket that turns out wrong.
+  question, anything outside the worktree, a ticket that turns out wrong, or
+  **a choice that would show**: anything that makes a screen or a behaviour
+  differ from the approved POC or the spec. That one is the person's, however
+  small it looks.
+- With a POC (`POC:` line in the spec): build the screens to match
+  `docs/poc/<topic>/`, and take test fixtures from its `data/*.json`. The POC
+  is the picture, not source to paste.
+- A ticket marked `First slice`: when it runs, show it to the person running
+  (how to start it, the screens to walk) before going to `finish`. The other
+  tickets build on it.
 
 ## 4. The lines only the person can check
 
@@ -64,7 +73,11 @@ asked again.
 ## 5. Finish
 
 Go to `finish`: up to date, checks, pull request, the two fresh reviews, and
-the person's go to merge. The ticket is done only when it has merged.
+the merge by this repo's merge policy (`docs/agents/merge-policy.md`: the
+person's go, or on its own under `on-pass` when everything passed). The ticket
+is done only when it has merged. Under `ask`, when more ready tickets remain,
+carry on with the next one while this one waits, and bring the finished
+branches to the person together: one go can merge several.
 
 ## No tickets: a small spec built here
 
@@ -82,5 +95,5 @@ since when.
 ## Never
 
 - Work on the default branch, or in the main checkout once the worktree exists.
-- Mark a ticket done, or merge, without `finish` and the person's typed go.
+- Mark a ticket done, or merge, outside `finish` and the merge policy.
 - Skip the person's lines because the tests pass.

@@ -1,5 +1,5 @@
 ---
-description: Scaffold a project from the tc-workflow starter — a new project folder, or in-place for an existing repo — choose where tickets live (docs/TASKS.md or GitHub Issues), and run the skeleton interview.
+description: Scaffold a project from the tc-workflow starter — a new project folder, or in-place for an existing repo — choose where tickets live (docs/TASKS.md or GitHub Issues) and how merges are handled (ask every time, or merge when the reviews pass), and run the skeleton interview.
 argument-hint: <ProjectName> | here
 ---
 
@@ -98,8 +98,26 @@ a repository.
   In-place mode: an existing `docs/agents/issue-tracker.md` is that repo's
   decision. Don't ask and never overwrite it; if it has no `Tracker:` line,
   tell the user the skills need one and offer to add it.
-- **No empty folders.** `docs/specs/`, `docs/plans/`, `docs/maps/`,
-  `docs/shipped/` and `docs/adr/` are created the first time something is
+- **The merge policy: one question.** *"How should merges work in this
+  project? Ask you before every merge, or merge on its own once both reviews
+  pass?"* Ask what the project is first if you don't know: something local
+  that nobody else depends on yet (a prototype, a new build not hosted
+  anywhere) suits **merge on pass**; anything hosted, client-facing, shared
+  with other people or carrying real data suits **ask**. Recommend one and say
+  why in a line. Copy `${CLAUDE_PLUGIN_ROOT}/templates/merge-policy.md` to
+  `docs/agents/merge-policy.md`, set its `Merge:` line (`ask` or `on-pass`)
+  and fill the History line with today's date and their reason. Tell them it
+  changes on their word at any time, and that sensitive work always asks.
+  In-place mode: an existing `docs/agents/merge-policy.md` is that repo's
+  decision; don't ask and never overwrite it.
+- **Background builders: one question.** Building a whole spec at once uses
+  background subagents, which can't stop to ask for permission. Offer to add
+  `git` and the repo's check command to `.claude/settings.json` under
+  `permissions.allow` (for example `"Bash(git:*)"`, `"Bash(npm test:*)"`),
+  merging into what is there, never replacing it. If they decline, say that
+  whole-spec builds will run in the foreground instead.
+- **No empty folders.** `docs/specs/`, `docs/plans/`, `docs/poc/`,
+  `docs/maps/`, `docs/shipped/` and `docs/adr/` are created the first time something is
   written into them.
 - **The inbox.** `docs/inbox.md` ships in the template (loose ideas, one
   line each, no status). In-place mode: copy it if absent.
@@ -117,7 +135,8 @@ a repository.
   under `## Verifying your work`: the reviewers run it.
 
 **In-place mutation contract:** the additive edits above (`.gitignore`
-lines, `CLAUDE.md` section, `docs/` stubs and the tracker files) are the ONLY
+lines, `CLAUDE.md` section, `docs/` stubs, the tracker and merge-policy
+files, the `.claude/settings.json` allows) are the ONLY
 changes allowed
 outside `_pm/`; never rewrite or reorganize existing content, and name every
 touched file in the sign-off.
@@ -143,9 +162,10 @@ artifact scales with content.
 
 Confirm what you did in 3–4 lines: what was created (new folder or in-place
 `_pm/`), git state (initialized / existing / declined), renames done,
-skeleton captured, the tracker chosen, the check command, and — in-place —
-every file touched. Then point at the next step: *"Shape the first piece of
-work: `grill`, then `spec`, which writes `docs/specs/` with its Acceptance
-checks. Then `whats-next` when you start a working session."*
+skeleton captured, the tracker chosen, the merge policy, the check command,
+and — in-place — every file touched. Then point at the next step: *"Tell me
+the first thing you want built, in a sentence. I'll size it, show you a short
+brief, and for anything with screens build a POC on mock data for you to play
+with before any spec or ticket. Use `whats-next` to open later sessions."*
 
 Don't start doing project work — scaffolding ends here.

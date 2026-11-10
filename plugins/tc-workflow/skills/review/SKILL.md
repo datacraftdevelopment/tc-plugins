@@ -25,6 +25,11 @@ the ticket's Acceptance lines, its `You check` lines and `Sensitive`
 check command: the one the plan or the ticket names, or the README's, or ask
 the person once and note it in `CLAUDE.md` under `## Verifying your work`.
 
+The POC: the spec's `POC:` line. When it names one, note its folder
+(`docs/poc/<topic>/`) and whether any Acceptance line says "matches POC
+screen S…". Make a folder for screenshots outside the checkouts:
+`.workflow/review/<short-sha>/shots/` in the main checkout (gitignored).
+
 The person-checked lines: any `You check` line the person has confirmed in
 this session, with what they saw and when. Ask them for any that are still
 open before you dispatch, so the function reviewer can count them. A line they
@@ -51,7 +56,8 @@ Two subagents, in parallel, both on `opus`:
 - `tc-workflow:code-reviewer` with: the code checkout path, the base, the
   ticket text and its Acceptance lines, whether it is sensitive.
 - `tc-workflow:function-reviewer` with: the function checkout path, the check
-  command, the ticket text and its Acceptance lines, the person-checked lines.
+  command, the ticket text and its Acceptance lines, the person-checked lines,
+  and, with a POC, its folder inside the checkout and the screenshots folder.
 
 Give them pointers, not a summary of the work: never the builder's reasoning,
 the plan's rulings or what you think of the change, and never one reviewer's
@@ -85,7 +91,9 @@ Write the verdicts where the tracker keeps them
   with both verdicts, the findings and each line's evidence.
 
 Then remove both review worktrees (`git worktree remove --force <path>`).
-Report in a few lines: the sha, both verdicts, what failed and why.
+Report in a few lines: the sha, both verdicts, what failed and why, and the
+screenshots folder when the function reviewer filled it. `finish` shows those
+to the person.
 
 ## Never
 

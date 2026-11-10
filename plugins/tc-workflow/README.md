@@ -1,9 +1,10 @@
 # tc-workflow
 
-A way of building software with Claude Code: shape the work, cut it into
-tickets, build each one test-first with agents, have two fresh reviewers check
-the exact commit, merge on your own word, and prove the result against
-production. **Read [`WORKFLOW.md`](./WORKFLOW.md) first**: it is the whole
+A way of building software with Claude Code: say what you want, play with a
+POC on mock data until it is right, then have it specced, cut into tickets and
+built test-first with agents. Two fresh reviewers check the exact commit, the
+merge follows a policy you set per project (ask every time, or merge when the
+reviews pass), and the result is proved against production. **Read [`WORKFLOW.md`](./WORKFLOW.md) first**: it is the whole
 loop on one page.
 
 Claude Code only. Nothing here needs another AI tool or a separate app.
@@ -34,20 +35,23 @@ offers to).
 /tc-workflow:scaffold here           # this repo
 ```
 
-It asks where tickets should live (`docs/TASKS.md` or GitHub Issues), the
-repo's check command, and five short questions for `_pm/skeleton.md`. Then:
-`whats-next` to open a session.
+It asks where tickets should live (`docs/TASKS.md` or GitHub Issues), how
+merges should work (ask you every time, or merge once both reviews pass), the
+repo's check command, and five short questions for `_pm/skeleton.md`. Then
+say what you want built, in a sentence: you get a short brief, and for
+anything with screens a POC on mock data to play with before any spec or
+ticket. `whats-next` opens later sessions.
 
 ## What's in it
 
 | Step | Skills |
 |---|---|
 | Session | `whats-next`, `stepping-away`, `checkpoint` |
-| Shape | `map`, `grill`, `prototype`, `design-handoff`, `spec` |
+| Shape | `intake` (the front door), `grill`, `poc`, `prototype`, `map`, `design-handoff`, `spec` |
 | Tickets | `file-tickets` (into `docs/TASKS.md` or GitHub Issues) |
 | Build | `work-ticket`, `writing-plans`, `subagent-driven-development`, `executing-plans`, `test-driven-development`, `systematic-debugging`, `verification-before-completion` |
-| Build a whole spec | `implement-spec` (only when you say "implement spec"), `nested-sessions` (only when asked for) |
-| Review and merge | `review` (agents `code-reviewer`, `function-reviewer`), `finish` |
+| Build a whole spec | `implement-spec` (when you pick "all at once"), `nested-sessions` (only when asked for) |
+| Review and merge | `review` (agents `code-reviewer`, `function-reviewer`), `finish`, by the project's merge policy (`ask` or `on-pass`) |
 | Ship | `ship-acceptance` |
 | Guards | `credential-guard` (always on), `gate-hooks`, `review-policy` (agent `policy-reviewer`) — see [`GATES.md`](./GATES.md) |
 | Reference | `domain-modeling`, `codebase-design`, `okf`, `research`, `pr` |

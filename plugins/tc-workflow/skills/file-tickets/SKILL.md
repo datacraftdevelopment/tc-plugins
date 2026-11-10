@@ -1,6 +1,6 @@
 ---
 name: file-tickets
-description: "Cut a spec into small tickets in this repo's tracker (docs/TASKS.md or GitHub Issues), and file them only when the person types go. Use when a spec has several independent pieces, or when the person says 'file tickets', 'break this into tickets', 'cut it up', 'make tickets for this'."
+description: "Cut a spec into small tickets in this repo's tracker (docs/TASKS.md or GitHub Issues), shown with the spec for one go, with the first ticket the main journey made real, and file them only when the person types go. Use from spec when it has several pieces, or when the person says 'file tickets', 'break this into tickets', 'cut it up', 'make tickets for this'."
 ---
 
 # File tickets
@@ -27,6 +27,16 @@ spec is probably two specs. Show it as one table:
 | b | Camera preview fills the frame on a phone | a | A2: preview on a real phone | no |
 | c | Show the frame size in the history list | a | none | no |
 
+- **The first slice.** When the spec has a POC, ticket `a` is the main
+  journey made real, as thin as it can be while still running end to end on
+  real storage: the screens of the journey, one happy path, no edges. Mark it
+  `first slice` in the title column, and when filed, start its description
+  with the line `First slice: shown to the person before the rest start.` Everything else waits on it. It is built
+  and shown to the person before the rest start, so a wrong turn costs one
+  ticket, not the spec.
+- **Fixtures.** With a POC, each ticket that touches data says which
+  `docs/poc/<topic>/data/*.json` files its tests use. Builders copy them into
+  the repo's test fixtures; they never invent a second shape.
 - **waits on** names another key in this batch, an existing ticket (`T-12`,
   `#12`), or nothing. Only a real dependency: the other ticket's work must be
   in place, or both change the same files. Fewer waits mean more can be built
@@ -44,8 +54,19 @@ a fresh reviewer can verify in a clean checkout with the repo's own commands,
 or an experiment it can do and undo (change a value, see a named test fail).
 Copy the spec's lines where they fit; never weaken one to make it easier.
 
-Then ask, in your own words: "File these N tickets?" and **stop**. Do not
-file in the same turn.
+Then ask, in your own words, one question that covers both the batch and the
+build: "File these N tickets and build them? All at once, or one at a time?"
+and **stop**. Do not file in the same turn. Coming straight from `spec`, this
+is the same message as the spec, and the one go covers the spec too.
+
+- **All at once** is `implement-spec`: every ready ticket built in the
+  background on one integration branch, the first slice shown to the person
+  first, one review and one merge for the whole spec. Recommend it when the
+  tickets are mostly independent and the spec has a POC.
+- **One at a time** is `work-ticket`, ticket by ticket with the person
+  alongside. Recommend it for sensitive work, or when the tickets are few and
+  each needs their eye.
+- Nested sessions only when the person asks for them by name.
 
 ## 2. File on go
 
@@ -65,9 +86,10 @@ format (write each body to a temp file and pass `--body-file`). Create the
 three status labels first if they're missing (the tracker file has the
 commands).
 
-Then tell the person the ids, which are ready now, and offer the ways to build
-them: `work-ticket` one at a time, `implement-spec` for the whole
-spec in one go, or nested sessions if they ask for them.
+Then tell the person the ids and which are ready now, and start the build
+they chose: `implement-spec` for all at once, `work-ticket` on the first
+ready ticket for one at a time. If their go didn't say which, ask that one
+question; don't pick for them.
 
 ## Never
 

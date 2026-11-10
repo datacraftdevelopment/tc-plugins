@@ -1,12 +1,27 @@
 ---
 name: grill
-description: "Interview the person about a plan, one question at a time, until every open branch of it is settled. Use when the person says 'grill me', 'stress-test this', 'poke holes in it', or when work is about to be specced and decisions are still open. Asks, never builds."
+description: "Interview the person about a plan, one question at a time. Three modes: to a POC (a handful of questions, just enough to build something to look at), after the POC (what no screen can show), and full (until every open branch is settled, for work with nothing to look at). Use when the person says 'grill me', 'stress-test this', 'poke holes in it', when poc or intake calls it, or when work is about to be specced and decisions are still open. Asks, never builds."
 ---
 
 # Grill the plan
 
 Work that runs unattended can't stop to ask what the person meant. Every question left open now becomes a guess
 later, made by a worker with none of this conversation. This skill settles those questions while the person is here.
+
+## Which mode
+
+- **To a POC** (called from `poc` or `intake`: work with screens or data to look at). **Five to eight questions at
+  most.** Ask only what changes what the POC shows: who uses it, the main journey step by step, which screens, which
+  things appear on them. Every other open branch becomes an assumption, written down for `poc.md`, not a question.
+  Stop at the cap even if branches are open: the person settles them faster by looking.
+- **After the POC** (the person has played with it). Start from their feedback and the assumptions list. Ask what no
+  screen can show: edges (empty, too many, offline, failing), errors, who may see or change what, data rules,
+  volumes, what is out of scope, how anyone will know it works. No cap; stop when nothing open would change what
+  gets built.
+- **Full** (no POC: a command-line tool, a service, a refactor, a rule change). Everything below, until nothing is
+  open.
+
+The steps are the same in every mode; only where you stop differs.
 
 ## How to run it
 
@@ -33,4 +48,5 @@ later, made by a worker with none of this conversation. This skill settles those
 
 ## After
 
-Offer the next step: `prototype` if a question is best answered by seeing it, otherwise `spec` to write it up.
+Go on to the next stage without waiting to be asked: after **to a POC**, build it (`poc`); after the other two, write
+it up (`spec`). Use `prototype` on the way when one narrow question is best answered by seeing it.

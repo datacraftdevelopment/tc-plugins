@@ -20,13 +20,20 @@ folder only when the first spec is written.
 # <What is being built>
 
 Status: spec, <date>. Sensitive: <no: one-line reason | yes>.
+POC: docs/poc/<topic>/ (approved <date> <short sha>) | none: <why there is nothing to look at>
 
 ## Why
 Two or three sentences: the problem and who has it.
 
 ## What it does
 The behaviour, from the user's side. Short paragraphs or a list. Name screens, commands or endpoints by what
-the person sees.
+the person sees. With a POC, point at its screens by name (`S2 detail`) instead of describing them, and write out
+only what the POC can't show: what is saved, the rules, the edges, the errors.
+
+## Data
+With a POC: `docs/poc/<topic>/data/*.json` is the shape of the data. Say what differs in the real thing (a field
+the POC left out, where each entity is stored). Builders use those files as test fixtures. Without one, leave this
+section out unless the work has data worth describing.
 
 ## Not in scope
 What someone might expect that this deliberately leaves out.
@@ -61,18 +68,29 @@ These are the part that matters most. The function reviewer walks each one, pass
   or an experiment it can do and undo (change a value, see a named test fail). Something only a real device or camera,
   or the person's eye on how it looks and feels, can show isn't a line it can pass: mark it `(you check)` and say what
   the person looks at. `file-tickets` puts those on the ticket's `You check` line.
+- With a POC, a line about how a screen looks or flows reads "matches POC screen S2" and says which state. The
+  function reviewer checks it by putting the built screen beside the POC's, so it no longer needs the person. Keep
+  `(you check)` for what only a real device or the person's own judgement can settle.
 - Three to six for a spec. If you need more, the spec is probably two specs.
 
-## After: how it gets built
+## A POC comes first when there is something to look at
 
-Show the spec, fix what the person changes, and commit it. An approved spec is not a go to build: ask, the person may
-want to sit on it. Then, by size:
+Work with screens, or data someone has to look at, is specced from an **approved** POC (`poc`). If there is none,
+or its `Status:` is not `approved`, stop and go to `poc` (or back to the person for their approval) before writing.
+Copy the decisions from `poc.md` into `## Decisions`. Never spec past a POC the person hasn't approved.
 
-- **One piece:** no tickets. Build it with `work-ticket` (its "No tickets" section): a worktree, a plan if it needs
-  one, test-first, then `finish`.
-- **Several independent pieces:** offer `file-tickets`. Once they're filed, the person picks how to build them:
-  `work-ticket` one at a time, `implement-spec` for the whole spec in one go, or nested sessions when
-  they ask for them.
-- **A project-sized spec:** before filing, offer a builder's read: dispatch a fresh `opus` subagent with only the
-  spec and the repo, asking what a builder would get stuck on, guess at, or build differently from what's meant.
-  Fix the spec from what it finds, then file.
+## After: one go for the spec and how it gets built
+
+The spec's approval is one place the person steers, not two. Show the spec and what happens next **together**:
+
+- **One piece:** the spec alone. No tickets. On their go, build it with `work-ticket` (its "No tickets" section):
+  a worktree, a plan if it needs one, test-first, then `finish`.
+- **Several pieces:** the spec and the ticket table from `file-tickets` in the same message, with the build
+  choice. One go covers the spec, the batch and how it is built.
+- **A project-sized spec:** before showing it, run a builder's read without asking: a fresh `opus` subagent with
+  only the spec, the POC and the repo, asked what a builder would get stuck on, guess at, or build differently from
+  what's meant. Fix the spec from what it finds, and say in a line what it changed.
+
+Then **stop**. An approved POC is not a go to build, and neither is a written spec: the person may want to sit on
+it. Fix what they change and show it again. Commit the spec when they say go, then carry on into the build they
+chose without being asked again.
