@@ -25,17 +25,6 @@
     {"from": "pm-sp:skills/stepping-away/client-face-contract.md", "to": "skills/stepping-away/client-face-contract.md"},
     {"from": "pm-sp:template/_pm/", "to": "template/_pm/"},
     {"from": "pm-sp:template/docs/inbox.md", "to": "template/docs/inbox.md"},
-    {"from": "pm-sp:template/docs/quirks.md", "to": "template/docs/quirks.md"},
-
-    {"from": "agent-runway:LICENSE.superpowers", "to": "LICENSE.superpowers"},
-    {"from": "agent-runway:skills/map/", "to": "skills/map/"},
-    {"from": "agent-runway:skills/grill/", "to": "skills/grill/"},
-    {"from": "agent-runway:skills/prototype/", "to": "skills/prototype/"},
-    {"from": "agent-runway:skills/writing-plans/", "to": "skills/writing-plans/"},
-    {"from": "agent-runway:skills/executing-plans/", "to": "skills/executing-plans/"},
-    {"from": "agent-runway:skills/subagent-driven-development/", "to": "skills/subagent-driven-development/"},
-    {"from": "agent-runway:skills/test-driven-development/", "to": "skills/test-driven-development/"},
-    {"from": "agent-runway:skills/systematic-debugging/", "to": "skills/systematic-debugging/"},
-    {"from": "agent-runway:skills/verification-before-completion/", "to": "skills/verification-before-completion/"}
+    {"from": "pm-sp:template/docs/quirks.md", "to": "template/docs/quirks.md"}
   ]
 }
