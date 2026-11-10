@@ -218,8 +218,13 @@ You don't pick the steps. Say what you want and **`intake`** sizes it:
 | Has screens, or data someone has to look at | Brief, a few questions, **POC**, `spec` and tickets, build |
 | Foggy, too big for one spec | It suggests a `map` |
 
-- **`poc`** — the main journey, clickable, on JSON mock data, in
-  `docs/poc/<topic>/`. The data comes first and is shaped like the real thing
+- **`poc`** — design first, then function. When the product has no look yet,
+  you first get **two or three design concepts of the one key screen**, really
+  different from each other and all on the same mock data. You pick a
+  direction, or mix them ("A's layout with C's detail panel"). That settles
+  how it looks; everything after is about what it does. Then comes the main
+  journey, clickable, on JSON mock data, in `docs/poc/<topic>/`, built in that
+  direction. The data comes first and is shaped like the real thing
   (from a schema, an API response, an export), with made-up values and the
   ugly rows put in on purpose: the very long name, the empty list. You play
   with it; every remark is sorted into *change it now*, *a decision for the
@@ -238,10 +243,14 @@ You don't pick the steps. Say what you want and **`intake`** sizes it:
   decisions the work needs in `docs/maps/<effort>/` and settles them one at a
   time across sessions. Its end is a list of chunks, each of which gets its
   own spec. It's suggested, never started unless you ask.
-- **`design-handoff`** — optional, after the POC is approved, when the visual
-  design deserves more than the POC gives: a brief you paste into Claude
-  Design. What comes back goes in `resources/design-handoff/` and the spec
-  links it.
+  The concepts come from **`/design`**, the design canvas built into Claude
+  Code (2.1.234 or later, signed in with a claude.ai account): it publishes
+  two or three editable artboards, you pick one and can tweak it on the
+  canvas, and the pick is saved into the repo before the POC is built on it.
+  Where `/design` isn't available, the concepts are plain HTML pages shown
+  side by side.
+- **`design-handoff`** — writes the brief for `/design` when the data model
+  is big, and can be used again after the POC is approved to polish the look.
 
 ### The spec
 
@@ -515,14 +524,14 @@ kind that pick it up.
 |---|---|---|
 | `/tc-workflow:scaffold` | Sets up a repo: tracker, merge policy, check command, skeleton | "/tc-workflow:scaffold here" |
 | `intake` | The front door: sizes the request, writes the brief, runs the stages in order | "I want to build…", "let's add…" |
-| `poc` | Clickable POC on JSON mock data; loops on your feedback until approved; kept as the reference | "build a POC", "let me see it first" |
+| `poc` | Design concepts to pick a direction, then a clickable POC on JSON mock data; loops on your feedback until approved; kept as the reference | "build a POC", "let me see it first" |
 | `whats-next` | Opens a session: where things stand, what to pick up, the Intent | "what's next?", "where did we leave off?" |
 | `stepping-away` | Closes a session: shipped vs Intent, open threads, inbox | "I'm stepping away", "let's wrap up" |
 | `checkpoint` | Re-aims mid-session | "checkpoint", "re-aim" |
 | `grill` | One question at a time: a few before the POC, the rest after | "grill me", "poke holes in it" |
 | `prototype` | Throwaway build to settle one narrow question | "prototype this", "which of these two" |
 | `map` | Decisions map for big, foggy work | "map this", "work the map" |
-| `design-handoff` | Optional: a brief for Claude Design, after the POC | "design handoff" |
+| `design-handoff` | The brief for `/design`: concepts before the POC, polish after | "design handoff" |
 | `spec` | Writes the spec with Acceptance lines | "write the spec", "spec this" |
 | `file-tickets` | Cuts a spec into tickets, first slice first, files on your go | (comes with the spec), "file tickets" |
 | `work-ticket` | Builds one ticket in its own worktree | "work the next ticket", "do T-4" |

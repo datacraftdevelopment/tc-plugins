@@ -49,12 +49,15 @@ one-page version.
   specified task skips all of it.
 - **See it before it is specced.** Anything with screens, or data someone has
   to look at, gets a POC first (`poc`): five to eight questions (`grill`, to a
-  POC), JSON mock data shaped like the real data, the main journey clickable
-  in `docs/poc/<topic>/`. The user plays with it, their feedback changes it,
+  POC), JSON mock data shaped like the real data, then, when the product has
+  no look yet, two or three design concepts of the key screen for the user to
+  pick a direction from, then the main journey clickable in
+  `docs/poc/<topic>/` in that direction. Design is settled first on one
+  screen; the rounds after are about function. The user plays with it, their feedback changes it,
   a second round of `grill` covers what no screen shows, and nothing is
   specced until they type approved. The approved POC is kept and is the
-  reference for the spec, the tickets and the reviewers. `design-handoff` is
-  optional polish after approval.
+  reference for the spec, the tickets and the reviewers. `design-handoff`
+  writes the brief when the concepts or later polish come from Claude Design.
 - **Four steer points, and quiet between them:** the brief, the POC, the spec
   with its tickets, the merge. Between them ask only when an answer would
   change what the user sees, or a step can't be undone.

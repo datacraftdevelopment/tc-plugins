@@ -5,16 +5,16 @@ want built once; `intake` picks the path and runs the stages in order. You
 steer at four points and are otherwise left alone.
 
 ```
-"I want X" ─► brief ─► questions ─► POC on mock data ─► spec + tickets ─► build ─► review ─► merge ─► ship-acceptance
-              ▲ 1      (5 to 8)     ▲ 2 you play,       ▲ 3 one go,       first              ▲ 4 by the
-              is this               change, approve     and how to        slice              merge policy
-              the thing?                                build it          shown
+"I want X" ─► brief ─► questions ─► design concepts ─► POC on mock data ─► spec + tickets ─► build ─► review ─► merge ─► ship-acceptance
+              ▲ 1      (5 to 8)     ▲ 2a pick a        ▲ 2b you play,      ▲ 3 one go,       first              ▲ 4 by the
+              is this               direction          change, approve     and how to        slice              merge policy
+              the thing?            (new products)                         build it          shown
 ```
 
 | Steer point | You look at | Your answer starts |
 | --- | --- | --- |
 | 1. Brief | Half a page: what, who, the main journey, what is out | The questions, the data sample, the POC |
-| 2. POC | A working page in your browser, until you type approved | The spec and the ticket table |
+| 2. POC | Two or three design concepts of the key screen, to pick a direction (skipped when the product already has a look). Then a working page in that direction, until you type approved | The spec and the ticket table |
 | 3. Spec and tickets | One spec, one table, and all at once or one at a time | The whole build, through review |
 | 4. Merge | Verdicts, screenshots beside the POC, the diff when sensitive | The merge. Under `on-pass` this point is skipped when everything passed. |
 
@@ -43,8 +43,11 @@ argument with `docs/`.
   POC** it asks five to eight questions and assumes the rest; **after the
   POC** it covers what no screen shows (edges, errors, permissions, rules);
   **full** is for work with nothing to look at. Asks, never builds.
-- `poc`: the main journey, clickable, on JSON mock data shaped like the real
-  data, in `docs/poc/<topic>/`. You play with it, your remarks are sorted
+- `poc`: design first, then function, kept apart. With no existing look, you
+  get two or three concepts of the one key screen that really differ, on the
+  same mock data, and pick a direction (or mix them). Then the main journey,
+  clickable, on JSON mock data shaped like the real data, in
+  `docs/poc/<topic>/`, built in that direction. You play with it, your remarks are sorted
   (change now, decision, question, not this job), it changes, and that loops
   until you type approved. It is kept: the spec links its screens, its JSON
   becomes the test fixtures, and reviewers compare built screens against it.
@@ -52,9 +55,12 @@ argument with `docs/`.
 - `map`: for work too foggy for one spec, a map of the decisions it needs,
   settled one at a time across sessions. Each chunk it ends with goes through
   intake.
-- `design-handoff`: optional, after the POC is approved, when the visual
-  design deserves more than the POC gives: a brief for Claude Design. What
-  comes back lands in `resources/design-handoff/` and the spec links it.
+- `/design` (built into Claude Code) makes those concepts: a canvas of
+  editable artboards you pick from and tweak. The pick is saved into the
+  repo before the POC is built on it. Without `/design`, the concepts are
+  plain HTML pages side by side.
+- `design-handoff`: writes the brief for `/design` when the data model is
+  big, and again after approval if you want the look polished.
 - `spec`: writes it up in `docs/specs/`, pointing at the POC, with
   **Acceptance** lines: three to six observable checks, each saying how to
   verify it. Everything after this is measured against those lines.

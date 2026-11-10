@@ -21,7 +21,14 @@ Delegating visual exploration is not delegating the user's frontend taste. The u
 
 ## Where it sits in the workflow
 
-Optional, and after the POC. For work with screens the order is **data sample → POC, approved → (this, when the visual design deserves more than the POC gives) → spec → build**. The approved POC (`tc-workflow:poc`, in `docs/poc/<topic>/`) has already settled what is on each screen and how the journey flows, on mock data shaped like the real data. This handoff takes that settled structure and its `data/*.json` into Claude Design for the visual design only: write it in data mode from the POC's data and screens, and the user takes it into Claude Design. The approved export comes back into the repo under `resources/design-handoff/`, and `tc-workflow:spec` links it beside the POC. Where the two differ on structure or flow, the POC wins unless the user says otherwise; where they differ on look, the design wins. A project with no POC (a presentation, a concept) uses this skill on its own, as before.
+Claude Design now lives inside Claude: in Claude Code it is the built-in `/design` skill, which takes a brief and publishes a canvas of editable artboards; the standalone site at claude.ai/design is closing. So the handoff this skill writes is the **brief you give `/design`** in the same session (or paste into a Claude conversation's Design canvas), not a document to carry to another site. Everything below about what to put in it and what to leave out still holds.
+
+For work with screens the order is **data sample → design direction → POC, approved → spec → build**, and this skill serves the design steps in two places:
+
+- **Before the POC, to pick a direction** (`tc-workflow:poc`, step 3). Write the handoff in data mode from the brief and the POC's `data/*.json`, asking for two or three artboards of the one key screen that really differ. The user picks one on the canvas, or mixes them, and the POC of the whole journey is then built in that direction. This is the usual use. For a small data model the `poc` skill writes the brief itself and this skill isn't needed.
+- **After the POC is approved, for polish**, when the visual design deserves more than the POC gives. Write the handoff from the approved POC's screens and data, asking for the finished design of those screens, not new structure.
+
+Either way the design the user picks is saved into the repo (`docs/poc/<topic>/concepts/` for a direction, `resources/design-handoff/` for anything brought in from outside), and `tc-workflow:spec` links it beside the POC. Where a design and the approved POC differ on structure or flow, the POC wins unless the user says otherwise; where they differ on look, the design wins. A project with no POC (a presentation, a concept) uses this skill on its own, as before.
 
 ## Mode selection
 

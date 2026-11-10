@@ -51,7 +51,7 @@ the steer points:
 | Steer point | What the person looks at | What their answer starts |
 | --- | --- | --- |
 | 1. Brief | The half page above | Questions, the data sample, the POC |
-| 2. POC | A working page in the browser, until they type approved | The spec and the ticket table |
+| 2. POC | First two or three design concepts of the key screen, to pick a direction (skipped when the product already has a look). Then a working page in the browser, in that direction, until they type approved | The spec and the ticket table |
 | 3. Spec and tickets | One spec, one table, one go, and how to build them | The whole build, through review |
 | 4. Merge | Verdicts, screenshots beside the POC, the diff when sensitive | The merge (or nothing to ask, when the merge policy is `on-pass` and everything passed) |
 
