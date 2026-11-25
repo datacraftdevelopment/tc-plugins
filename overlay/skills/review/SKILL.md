@@ -9,6 +9,24 @@ Two reviewers that never saw the work being built look at the **exact head
 commit**, each from its own side. Both must pass. A verdict belongs to that one
 commit: any new commit needs a new review.
 
+## 0. Is it ready for a code review?
+
+Two cheaper looks come first, because a code review of a design that is
+about to change is wasted, and the next one will be too.
+
+- **A design read, when the change makes separate processes or sessions agree
+  about shared state** (who owns a thing, a queue, a lock, a heartbeat, files
+  several writers touch). Have the builder write the design on one page: the
+  states, who writes what, what happens when a process dies or two act at
+  once. Dispatch the code reviewer on that page alone and ask for the cases
+  that break it. Build after the design holds. If three reviews of the code
+  each find a different routing or timing bug, the design is the finding:
+  stop and bring the person a simpler one.
+- **The person's own look, when the change has a screen.** Put a build they
+  can try in front of them before the code review, and record what they saw
+  as `You check` lines. Five minutes of their hands finds what no reviewer
+  reads for: that a control is confusing, that a step is missing.
+
 ## 1. Pin what is reviewed
 
 From the branch's checkout:
@@ -73,6 +91,27 @@ Give them pointers, not a summary of the work: never the builder's reasoning,
 the plan's rulings or what you think of the change, and never one reviewer's
 verdict to the other. They read the ticket and the code themselves.
 
+What makes a review find things, in every dispatch:
+
+- **The brief as a file.** With no ticket, write what the change must do as
+  numbered lines in one file outside the checkouts and give every reader its
+  path, so all of them judge the same thing. Put the limits the builder has
+  stated as known and accepted at the end, so they aren't reported again.
+- **Reproduce, don't only read.** Ask the function reviewer to replay each
+  line that matters itself, in a scratch folder, through the same door a
+  person or agent would use, and to record what it ran and what came back.
+  Ask the code reviewer to reproduce a suspected defect before calling it
+  important.
+- **Prove the tests can fail.** Name three to five deliberate breakages of
+  the rules that matter most (the check always answers yes, the lock isn't
+  exclusive) and have the function reviewer apply each, name the test that
+  goes red, and restore. A rule whose breakage leaves every test green is a
+  failing line, however many tests pass.
+- **Rails on a live machine.** Say what the reviewers must not touch (a
+  running app someone is using, the person's real data and settings folders),
+  have them record a checksum of those folders before and after, and have
+  them confirm no process they started is left running.
+
 ## 4. Read the verdicts
 
 Each ends with a JSON block. Check it names the sha you pinned; a verdict for
@@ -93,7 +132,18 @@ report it as blocked.
   to the builder: in `finish`, one fix pass, then one re-review of the new
   head (both reviewers again, fresh). A second failure stops and goes to the
   person with the findings, and the ticket is marked `blocked` with
-  `Waiting on: the person, review findings on <short sha>`.
+  `Waiting on: the person, review findings on <short sha>`. Don't send a
+  third round on your own, however close it looks: the person may want a
+  smaller design, not another fix.
+- **A confirming read instead of the full re-review** is allowed in one case:
+  the function reviewer passed the first time, the code reviewer's failures
+  were specific findings and not the design, and the fix pass closed each one
+  with a test. Then dispatch the code reviewer alone, fresh, on the new head,
+  pointed at the fix diff and the list of findings, asked two things: is each
+  important finding closed in the code and not only in a test, and did the
+  fixes add anything harmful (a way to lose data, a hang, a crash, a write
+  outside its folders). It fails only on those. Anything else it finds is
+  recorded as a follow-up. Say in the record that it was a confirming read.
 
 ## 5. Record
 
@@ -120,4 +170,8 @@ to the person.
 - Count a line as passed because the code looks right, or because the
   person "would probably" confirm it.
 - Reuse a verdict after a new commit, a rebase or a conflict fix.
+- Review a head the builder reported before it read your last message to it.
+- Send a third round after two failures without the person.
+- Raise a test's threshold or drop a test to get a pass without saying so in
+  the record: the person decides whether a loosened bar is acceptable.
 - Edit, commit or push from a review checkout.
