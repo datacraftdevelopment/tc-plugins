@@ -34,11 +34,19 @@ Say **yes** only when all of these hold:
 
 - There are at least two ready tickets, each a meaningful outcome. Small fixes
   stay in this session, done serially.
+- **Ready means it has Acceptance lines.** "Look at X and propose something" is
+  discovery, not a ticket. It may run as a nested session only if it ends in a
+  spec (`spec`) and stops there: the build is a new ticket, started after the
+  user has read the spec. A discovery session that slides into building has no
+  fixed scope, and every later decision lands on it.
 - **Disjoint files.** List what each ticket will touch. Any overlap, including
   lockfiles, generated code, migrations, schema or config registries, means
   those two run one after the other.
 - **At most one database writer**, and no shared port, dev server, browser
-  profile or other single resource.
+  profile or other single resource. A desktop app that only one session can
+  drive (a simulator, a database client, anything with one front window) is
+  such a resource: name its one owner in every brief, and hand it over by
+  message when the owner says it is done.
 - No ticket depends on another's output. A dependency is a second wave, started
   when the first merges.
 - The machine has room. Check memory and CPU (`memory_pressure`, `uptime` on
@@ -112,6 +120,15 @@ reporting.
 Report each one as **created and pending** until it has actually started, then
 give the user one line per nested session: ticket, branch, where it runs.
 
+**A nested session has a shelf life.** One ticket, or about two hours of
+work, whichever comes first. Past that its context has been compacted more
+than once and it starts to lose what was decided. When a ticket needs longer,
+have the session commit, write a hand-over page (what is built, what each
+check proved, what is left, the decisions with the user's own words) and
+stop; the next piece is a fresh session started from that page. Start that
+replacement while the user is there to ask for it: a main session can't start
+a session on its own while the user is away.
+
 ## 3. Manage them
 
 Act on events, not on a timer. Each turn a nested session's message or idle
@@ -121,6 +138,18 @@ notice wakes you:
   earlier decision answers it, and say where the answer came from. Bring the
   user only a real decision (taste, scope, anything hard to undo), one line
   with your recommendation, naming the nested session. Relay their answer back.
+- **A new decision from the user while a ticket is being built.** Decide where
+  it goes before you relay it: a correction to this ticket goes to its
+  session; anything that adds scope is a new ticket (a second wave, or the
+  backlog), not a longer brief for a session already at work. Say which you
+  chose. Ten small additions to one session is how a two-hour ticket becomes
+  a five-hour one with nothing merged.
+- **Messages queue.** A message to a session that is working waits behind its
+  turn, so its next report may have been written before it read your last
+  message. Before you act on a "ready" report, check that it answers what you
+  sent; if it doesn't, wait for the one that does, and don't review the stale
+  head. Send decisions in one message when the session is idle, not one at a
+  time while it works, and never treat a queued message as read.
 - **Blocked.** Unblock it (commit a missing file, settle an interface, reorder
   the waves) or park its ticket with `Waiting on:` and tell the user once.
   A nested session stuck on a **permission prompt** is the user's to answer:
@@ -133,6 +162,10 @@ notice wakes you:
   review once more. A second failed review marks the ticket `blocked` with
   `Waiting on:` and its findings. Don't review inside the nested session: the
   point is eyes that didn't build it.
+- **Land the settled part first.** When part of a ticket is done and nobody
+  disputes it while another part is still being argued over, have the session
+  split the branch and get the settled part reviewed and merged now. Hours of
+  work with nothing merged is the sign this was skipped.
 - **Ready to merge** (review passed). Read its report and diff by path. A
   background session that worked in its own worktree may already have pushed
   its branch and opened a draft PR; that is fine, the merge is still yours to
@@ -148,6 +181,13 @@ notice wakes you:
   `failed` or `stopped`, and `waitingFor` names what a blocked one waits on.
   Then message it once asking for status. Read its transcript
   (`claude logs <id>`) only if it doesn't answer.
+
+**While the user is away,** carry on with what they asked and can be undone:
+reviews, fix passes, merges the merge policy allows, checks. A step the main
+session can't take then (starting a new session, anything its permission
+check refuses, a deploy) is left ready with its exact command, never worked
+around. Work that needs a fresh context goes to a subagent, which reports
+back in this turn.
 
 Steer by message, short and pointed: a changed decision, a new constraint, a
 file to read. Messages are plain text only, never files or history. Don't
