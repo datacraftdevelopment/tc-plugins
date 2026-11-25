@@ -151,10 +151,14 @@ main session's. Pick the lowest model that fits the work:
 - `sonnet` for building to a clear spec or plan, mechanical edits,
   exploration, research, merges and small fix passes;
 - `opus` for judgment: design choices, hard debugging, reading a spec as its
-  builder, and every review.
+  builder, and the per-task reviews inside a plan;
+- `fable` for the reviews a merge rests on: the two reviewers `review`
+  dispatches, the final whole-branch review of a plan, and the function
+  reviewer `ship-acceptance` runs.
 
-**Opus is the ceiling.** When the main session runs on Fable, everything it
-starts runs on Opus at most, and on Sonnet when the work allows. Never Haiku.
+**Opus is the ceiling for everything else.** When the main session runs on
+Fable, the work it starts runs on Opus at most, and on Sonnet when the work
+allows; only those reviews run on Fable. Never Haiku.
 
 ## When the plugin itself gets in the way
 

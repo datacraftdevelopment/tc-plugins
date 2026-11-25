@@ -27,7 +27,7 @@ overwritten with a pass.
 The checker is not the session that built it.
 
 - **Lines a model can check from the repo:** dispatch the
-  `tc-workflow:function-reviewer` agent (on `opus`) in a throwaway checkout of
+  `tc-workflow:function-reviewer` agent (on `fable`) in a throwaway checkout of
   the candidate (`git worktree add --detach "${TMPDIR:-/tmp}/ship-<short-sha>"
   <sha>`), with the check command and the spec's Acceptance lines. Its
   per-line evidence goes into the record. Remove the checkout after.

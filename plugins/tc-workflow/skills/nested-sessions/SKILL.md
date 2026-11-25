@@ -71,7 +71,8 @@ session started without it inherits the main session's model. Pick by the
 ticket: `sonnet` for a ticket that is building to a clear spec (most of them),
 `opus` for one that needs judgment (a design call the spec left open, a hard
 bug, a risky migration). Opus is the ceiling: even when the main session runs
-on Fable, no nested session runs above Opus. See the model rule in
+on Fable, no nested session runs above Opus (the reviews each one asks for are the
+exception: `review` runs them on Fable). See the model rule in
 `WORKFLOW.md`. Name each one after its ticket so messages
 can address it by name. If the host has its own control for starting a nested
 session, use that instead. Give it a short self-contained brief that points at

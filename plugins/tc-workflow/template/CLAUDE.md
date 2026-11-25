@@ -96,8 +96,10 @@ one-page version.
 - **Bugs:** `systematic-debugging`. Reproduce before fixing.
 - **Model economy.** Every subagent and nested session names its model, never
   inheriting this session's: `sonnet` to build, explore, research and merge,
-  `opus` for judgment (design, hard bugs) and every review. Opus is the
-  ceiling: a Fable main session still starts nothing above Opus. Never Haiku.
+  `opus` for judgment (design, hard bugs) and per-task reviews, `fable` for
+  the reviews a merge rests on (`review`, a plan's final review,
+  `ship-acceptance`). Opus is the ceiling for everything else: a Fable main
+  session starts nothing else above Opus. Never Haiku.
 
 ## The taxonomy: known folders, created on first write
 

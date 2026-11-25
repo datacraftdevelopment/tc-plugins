@@ -55,7 +55,7 @@ ticket. `whats-next` opens later sessions.
 | Ship | `ship-acceptance` |
 | Guards | `credential-guard` (always on), `gate-hooks`, `review-policy` (agent `policy-reviewer`) — see [`GATES.md`](./GATES.md) |
 | Reference | `domain-modeling`, `codebase-design`, `okf`, `research`, `pr` |
-| Optional, needs Ringer | `cross-review`: another AI vendor's read of a spec or branch, through Ringer, only when asked for by name; does nothing without Ringer |
+| Optional, needs Ringer | `cross-review`: another AI vendor's read of a spec or branch, through Ringer, when asked for by name; with Ringer installed, `review` also adds its other-vendor reader; does nothing without Ringer |
 | Problems with the plugin | `feedback`: drafts a scrubbed issue on this plugin's repo, files it on your go |
 
 Where each part comes from and its licence: [`VENDOR.md`](./VENDOR.md).
