@@ -51,13 +51,23 @@ did. Never copy real credentials into them.
 
 ## 3. Dispatch both at once
 
-Two subagents, in parallel, both on `opus`:
+Two subagents, in parallel, both on `fable`, the one place the model rule
+goes above `opus` (see `WORKFLOW.md`). Name the model when you dispatch; the
+agents also carry it, so a reviewer that reports another model was started
+wrong and is not a pass:
 
 - `tc-workflow:code-reviewer` with: the code checkout path, the base, the
   ticket text and its Acceptance lines, whether it is sensitive.
 - `tc-workflow:function-reviewer` with: the function checkout path, the check
   command, the ticket text and its Acceptance lines, the person-checked lines,
   and, with a POC, its folder inside the checkout and the screenshots folder.
+
+**A third reader from another vendor, only where the machine has one.** Run
+the check at the top of `tc-workflow:cross-review` ("is it here?"). Found:
+start that skill's other-vendor reader at the same time, in branch mode, that
+reader only, on the same sha and with the same pointers as the code reviewer.
+Not found: carry on with the two and say nothing about it; never install
+anything for it.
 
 Give them pointers, not a summary of the work: never the builder's reasoning,
 the plan's rulings or what you think of the change, and never one reviewer's
@@ -70,6 +80,13 @@ another commit doesn't count. A reviewer that crashed, returned no JSON or
 skipped lines is **not a pass**: dispatch it once more, and if it fails again,
 report it as blocked.
 
+- **The other-vendor reader, when it ran:** it returns findings, not a
+  verdict. Check each one against the code yourself. A finding you confirm,
+  tied to the ticket, the spec or `REVIEW.md`, counts as a code-review fail and
+  goes back with the rest; one you can't confirm is noted in the record, not
+  acted on. If the reader couldn't run (quota, sign-in, model not available),
+  retry once, then go on with the two and write `(other vendor: not run)` in
+  the record. It never blocks a merge by being absent.
 - **Both pass:** the commit is reviewed. If either raised `sensitive`, say so:
   the person reads the diff before saying go.
 - **Either fails:** the findings (code) and failing lines (function) go back
@@ -84,7 +101,8 @@ Write the verdicts where the tracker keeps them
 (`docs/agents/issue-tracker.md`):
 
 - **tasks**: on the ticket's `Reviews:` line add
-  `<date> <short sha> code: pass|fail, function: pass|fail`, and under the
+  `<date> <short sha> code: pass|fail, function: pass|fail` (plus
+  `other vendor: N confirmed|not run` when that reader was started), and under the
   ticket a `### Review <short sha>` block with each finding and each line's
   evidence. Commit it on the default branch in the main checkout, on its own.
 - **github**: a comment on the pull request starting `Review of <short sha>`,

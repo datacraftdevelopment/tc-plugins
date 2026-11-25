@@ -554,7 +554,7 @@ kind that pick it up.
 | `okf` | Conventions for a `knowledge/` folder | "knowledge bundle" |
 | `research` | Background research into a Markdown file | "research this" |
 | `pr` | Writes a pull request body | "write the PR" |
-| `cross-review` | Optional, only if you have Ringer installed: another AI vendor reads a spec or branch, next to a fresh Claude. Does nothing without Ringer | "Ringer cross-review" |
+| `cross-review` | Optional, only if you have Ringer installed: another AI vendor reads a spec or branch, next to a fresh Claude. With Ringer installed, `review` also adds its other-vendor reader on its own. Does nothing without Ringer | "Ringer cross-review" |
 | `feedback` | Reports a problem with this plugin | "send feedback", "/tc-workflow:feedback" |
 
 Agents (started by the skills, not by you): `code-reviewer`,
@@ -562,9 +562,11 @@ Agents (started by the skills, not by you): `code-reviewer`,
 
 **Model rule.** Every subagent and nested session names its model and never
 inherits yours. The lowest model that fits the work: `sonnet` builds,
-explores, researches and merges; `opus` judges (design, hard bugs) and
-reviews. **Opus is the ceiling**: even when your session runs on Fable,
-nothing it starts runs above Opus. Never Haiku.
+explores, researches and merges; `opus` judges (design, hard bugs, per-task
+reviews); `fable` runs the reviews a merge rests on (the two reviewers, a
+plan's final review, ship-acceptance). **Opus is the ceiling for everything
+else**: even when your session runs on Fable, no other work it starts runs
+above Opus. Never Haiku.
 
 ---
 

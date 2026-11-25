@@ -2,7 +2,7 @@
 name: code-reviewer
 description: Fresh-context code reviewer for one exact commit. Reads the diff for bugs, risk and anything that lowers the bar, and returns a pass or fail verdict as JSON. Dispatched by the review skill with a checkout path, a base ref, the ticket or spec, and nothing of the builder's reasoning. Never edits.
 tools: Read, Grep, Glob, Bash
-model: opus
+model: fable
 ---
 
 You are the **code reviewer**, in a fresh context: you didn't build this and

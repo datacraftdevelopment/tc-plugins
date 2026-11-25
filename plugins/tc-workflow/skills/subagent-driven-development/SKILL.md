@@ -138,17 +138,16 @@ ledger.
 
 ## Model Selection
 
-Use the least powerful model that can handle each role to conserve cost and increase speed. Always name it: a subagent never inherits the session's model. **`opus` is the ceiling**, whatever the main session runs on (see the model rule in `WORKFLOW.md`).
+Use the least powerful model that can handle each role to conserve cost and increase speed. Always name it: a subagent never inherits the session's model. **`opus` is the ceiling**, whatever the main session runs on, except the final whole-branch review, which runs on `fable` (see the model rule in `WORKFLOW.md`).
 
 **Mechanical implementation tasks** (isolated functions, clear specs, 1-2 files): `sonnet`. Most implementation tasks are mechanical when the plan is well-specified.
 
 **Integration tasks** (multi-file coordination, pattern matching): `sonnet`. Hard debugging: `opus`.
 
 **Architecture and design tasks**: `opus`.
-The final whole-branch review is one of these: dispatch it on `opus`, not the
-session default.
 
-**Review tasks**: `opus` for task reviews and the final review. Scoped
+**Review tasks**: `opus` for task reviews. The final whole-branch review: `fable`, named explicitly, not the
+session default. Scoped
 re-reviews of small fix diffs may take `sonnet`.
 
 **Fix-loop escalation (rounds 4-5)**: use a model at least one tier above

@@ -1,6 +1,6 @@
 {
   "name": "tc-workflow",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A Claude Code workflow for building software with agents: say what you want built, get a brief and then a clickable POC on JSON mock data to play with and approve before anything is specced, cut the spec into tickets kept in docs/TASKS.md or GitHub Issues, build test-first with subagents, nested sessions or implement-spec, check each branch with two fresh reviewers (code and function), merge by a per-project policy (ask every time, or merge when the reviews pass), and prove the spec against production. Includes a credential guard, repo gates and a review policy.",
   "author": {
     "name": "Joe DaSilva"

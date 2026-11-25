@@ -1,14 +1,19 @@
 ---
 name: cross-review
-description: "Optional: a reader from another AI vendor, run through Ringer, reads a spec as its builder or reviews a finished branch, next to a fresh Claude reader. Only for people who have Ringer installed. Use ONLY when the person asks for it by name: 'Ringer cross-review', 'cross-review this', 'get another model on this'. Never run it on your own, never as part of review or finish, and never suggest installing Ringer."
+description: "Optional: a reader from another AI vendor, run through Ringer, reads a spec as its builder or reviews a finished branch, next to a fresh Claude reader. Only for people who have Ringer installed. Use when the person asks for it by name: 'Ringer cross-review', 'cross-review this', 'get another model on this'. One exception to by-name-only: `review` starts the other-vendor reader of branch mode on its own when Ringer and its `codex` engine are installed. Never suggest installing Ringer."
 ---
 
 # Cross-review (optional, needs Ringer)
 
 An extra read from a different AI vendor, at the two points where it pays:
 before a big spec becomes tickets, and before a branch merges. It sits on top
-of the normal flow; it never replaces `review`, and `finish` never waits for
-it unless the person says so.
+of the normal flow; it never replaces `review`.
+
+On a machine that has Ringer and the other vendor's CLI, `review` starts the
+other-vendor reader below next to its two reviewers, every time, and treats a
+finding it confirms as a code-review fail. Everything else here (spec mode,
+the fresh Claude reader, a full cross-review) still runs only when the person
+asks for it by name.
 
 [Ringer](https://github.com/datacraftdevelopment/ringer) is a separate tool
 that routes work to other models. Most people using this plugin don't have
@@ -20,7 +25,12 @@ Run `zsh -lc 'command -v ringer'` (on a machine without zsh,
 `bash -lc 'command -v ringer'`). The login shell matters: Ringer is often only
 on the PATH there.
 
-- **Not found:** say "Cross-review needs Ringer, which isn't installed on this
+Then `zsh -lc 'command -v codex'` the same way: the other-vendor reader is a
+Ringer task on the `codex` engine, so it needs both.
+
+- **Not found** (either one): when `review` is the caller, say nothing and
+  let it carry on with its two reviewers. When the person asked, say
+  "Cross-review needs Ringer, which isn't installed on this
   computer. The two normal reviewers (`review`) still cover this branch."
   Then stop. Don't install anything, don't look for it elsewhere, and don't
   bring it up again this session.
@@ -41,7 +51,7 @@ answer.
 - **The other vendor:** one Ringer task on the `codex` engine. Use the model
   and effort the person's Ringer config sets for reviews, unless they name
   one.
-- **A fresh Claude:** an `opus` subagent with none of this session's context.
+- **A fresh Claude:** a `fable` subagent with none of this session's context.
   It hasn't watched the spec or code get written, which is the point.
 
 The packet is read-only context and the question: no transcript, no unrelated
